@@ -28,8 +28,35 @@
 				
 				<Border Grid.Column="1" Classes="DirectoryUpButtonContainer">
 					<!--add icon-->
-					<Button>Up</Button>
+					<Button Classes="CustomButton">Up</Button>
 				</Border>
+			</Grid>
+			<Grid Classes="MainControlsContainer">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="70" />
+				</Grid.RowDefinitions>
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.85*" />
+					<ColumnDefinition Width="0.15*" />
+				</Grid.ColumnDefinitions>
+
+				<Grid Grid.Column="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="0.22*"/>
+						<ColumnDefinition Width="0.04*"/>
+						<ColumnDefinition Width="0.22*"/>
+						<ColumnDefinition Width="0.04*"/>
+						<ColumnDefinition Width="0.22*"/>
+						<ColumnDefinition Width="0.04*"/>
+						<ColumnDefinition Width="0.22*"/>
+					</Grid.ColumnDefinitions>
+
+					<Button Grid.Column="0" Classes="CustomButton">Extract</Button>
+					<Button Grid.Column="2" Classes="CustomButton">Archive</Button>
+					<Button Grid.Column="4" Classes="CustomButton">Add to</Button>
+					<Button Grid.Column="6" Classes="CustomButton">View</Button>
+				</Grid>
 			</Grid>
 		</StackPanel>
 	</Border>

@@ -7,7 +7,7 @@
     </Design.PreviewWith>
 
 	<Style Selector="Border.Wrapper">
-		<Setter Property="Padding" Value="14 20 0 14"></Setter>
+		<Setter Property="Padding" Value="14 20 20 14"></Setter>
 	</Style>
 
 	<Style Selector="StackPanel.CurrentPathContainer">
@@ -26,7 +26,11 @@
 		<Setter Property="Padding" Value="14 0 14 0"></Setter>
 	</Style>
 
-	<Style Selector="Border.DirectoryUpButtonContainer>Button">
+	<Style Selector="Grid.MainControlsContainer">
+		<Setter Property="Background" Value="#F3F3F3"></Setter>
+	</Style>
+
+	<Style Selector="Button.CustomButton">
 		<Setter Property="Height" Value="35"></Setter>
 		<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
 		<Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
