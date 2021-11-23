@@ -1,19 +1,14 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using System.ComponentModel;
 
 namespace UI.Views
 {
-    public partial class MainWindow : Window
+    public partial class UserControl1 : UserControl
     {
-        public MainWindow()
+        public UserControl1()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
-            DataContext = new ViewModels.MainWindowViewModel();
         }
 
         private void InitializeComponent()

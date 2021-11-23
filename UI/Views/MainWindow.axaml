@@ -6,14 +6,31 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="UI.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="UI">
+        Title="Archivarius">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<Panel>
-		<Button Name="Test" Content="Button"></Button>
-		<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-	</Panel>	
+	<Window.Styles>
+		<StyleInclude Source="/Views/Styles/MainWindowStyles.axaml"/>
+	</Window.Styles>
+
+	<Border Classes="Wrapper">
+		<StackPanel>
+			<Grid Classes="CurrentPathContainer">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.85*"/>
+					<ColumnDefinition Width="0.15*"/>
+				</Grid.ColumnDefinitions>
+
+				<TextBox Grid.Column="0" Watermark="File or directory path"/>
+				
+				<Border Grid.Column="1" Classes="DirectoryUpButtonContainer">
+					<!--add icon-->
+					<Button>Up</Button>
+				</Border>
+			</Grid>
+		</StackPanel>
+	</Border>
 </Window>
