@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="UI.Views.MainWindow"
+		xmlns:local="clr-namespace:UI.Views"
         Icon="/Assets/avalonia-logo.ico"
         Title="Archivarius">
 
@@ -14,6 +15,7 @@
 
 	<Window.Styles>
 		<StyleInclude Source="/Views/Styles/MainWindowStyles.axaml"/>
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml"/>
 	</Window.Styles>
 
 	<Border Classes="Wrapper">
@@ -31,7 +33,7 @@
 					<Button Classes="CustomButton">Up</Button>
 				</Border>
 			</Grid>
-			<Grid Classes="MainControlsContainer">
+			<Grid Name="ControlsContainer" Classes="MainControlsContainer">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="70" />
 				</Grid.RowDefinitions>
@@ -58,6 +60,16 @@
 					<Button Grid.Column="6" Classes="CustomButton">View</Button>
 				</Grid>
 			</Grid>
+
+			<DataGrid Classes="DirectoryContentDataGrid" CanUserReorderColumns="False" 
+					  CanUserResizeColumns="False" CanUserSortColumns="False" 
+					  Items="{Binding CurrentDirectoryContent}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Type" Binding="{Binding Type}" MinWidth="300"/>
+					<DataGridTextColumn Header="Name" Binding="{Binding Name}" MinWidth="400" />
+				</DataGrid.Columns>
+
+			</DataGrid>
 		</StackPanel>
 	</Border>
 </Window>

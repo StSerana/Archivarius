@@ -1,12 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace UI.Views
 {
     public partial class MainWindow : Window
-    {
+    {        
         public MainWindow()
         {
             InitializeComponent();
@@ -20,5 +21,5 @@ namespace UI.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
-    }
+    }    
 }
