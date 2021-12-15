@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using UI.Models;
 
 namespace UI.ViewModels
 {
@@ -11,12 +12,11 @@ namespace UI.ViewModels
 
         public MainWindowViewModel()
         {
-            CurrentDirectoryContent = new ObservableCollection<ExplorerEntity>()
-            {
-                new ExplorerEntity("Folder", "Downloads"),
-                new ExplorerEntity("Folder", "Desktop"),
-                new ExplorerEntity("File", "Script.js"),
-            };
+            var content = FileSystem.GetCurrentDirectoryContent();
+
+            CurrentDirectoryContent = new ObservableCollection<ExplorerEntity>();
+
+            content.ForEach(g => CurrentDirectoryContent.Add(new ExplorerEntity(g.IsDirectory ? "folder" : "file", g.Name)));
         }
 
         public string Greeting => "Welcome to Avalonia!";
