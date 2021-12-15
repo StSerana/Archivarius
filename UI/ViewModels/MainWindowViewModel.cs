@@ -1,3 +1,5 @@
+using Avalonia.Controls;
+using Avalonia.Interactivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +11,7 @@ namespace UI.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         public ObservableCollection<ExplorerEntity> CurrentDirectoryContent { get; }
+        public ExplorerEntity SelectedEntity { get; set; }
 
         public MainWindowViewModel()
         {
@@ -20,17 +23,5 @@ namespace UI.ViewModels
         }
 
         public string Greeting => "Welcome to Avalonia!";
-    }
-
-    public class ExplorerEntity
-    {
-        public string Type { get; set; }
-        public string Name { get; set; }
-
-        public ExplorerEntity(string type, string name)
-        {
-            Type = type;
-            Name = name;
-        }
     }
 }

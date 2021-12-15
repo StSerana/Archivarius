@@ -39,8 +39,7 @@
 				</Grid.RowDefinitions>
 
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="0.85*" />
-					<ColumnDefinition Width="0.15*" />
+					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 
 				<Grid Grid.Column="0">
@@ -61,14 +60,15 @@
 				</Grid>
 			</Grid>
 
-			<DataGrid Classes="DirectoryContentDataGrid" CanUserReorderColumns="False" 
+			<DataGrid ScrollViewer.VerticalScrollBarVisibility="Visible" Height="400" Classes="DirectoryContentDataGrid" 
+					  CanUserReorderColumns="False"
+					  Name="CurrentDirectoryContentGrid"
 					  CanUserResizeColumns="False" CanUserSortColumns="False" 
 					  Items="{Binding CurrentDirectoryContent}">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="Type" Binding="{Binding Type}" MinWidth="300"/>
-					<DataGridTextColumn Header="Name" Binding="{Binding Name}" MinWidth="400" />
-				</DataGrid.Columns>
-
+					<DataGridTextColumn Header="Type" Binding="{Binding Type}" MinWidth="300" IsReadOnly="True"/>
+					<DataGridTextColumn Header="Name" Binding="{Binding Name}" MinWidth="400" IsReadOnly="True" />					
+				</DataGrid.Columns>				
 			</DataGrid>
 		</StackPanel>
 	</Border>
