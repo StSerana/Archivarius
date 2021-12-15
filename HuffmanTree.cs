@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Archivarius
 {
     public class HuffmanTree
     {
         private List<HuffmanNode> nodes = new();
-        private HuffmanNode Root { get; set; }
+        public HuffmanNode Root { get; set; }
         private Dictionary<char, int> Frequencies = new();
 
         public void Build(string source)
@@ -26,10 +29,15 @@ namespace Archivarius
             {
                 nodes.Add(new HuffmanNode {Symbol = key, Frequency = value});
             }
+            
+            CreateTree(nodes);
+        }
 
-            while (nodes.Count > 1)
+        private void CreateTree(List<HuffmanNode> huffmanNodes)
+        {
+            while (huffmanNodes.Count > 1)
             {
-                var orderedNodes = nodes.OrderBy(node => node.Frequency).ToList();
+                var orderedNodes = huffmanNodes.OrderBy(node => node.Frequency).ToList();
 
                 if (orderedNodes.Count >= 2)
                 {
@@ -45,15 +53,14 @@ namespace Archivarius
                         Right = taken[1]
                     };
 
-                    nodes.Remove(taken[0]);
-                    nodes.Remove(taken[1]);
-                    nodes.Add(parent);
+                    huffmanNodes.Remove(taken[0]);
+                    huffmanNodes.Remove(taken[1]);
+                    huffmanNodes.Add(parent);
                 }
 
-                Root = nodes.FirstOrDefault();
+                Root = huffmanNodes.FirstOrDefault();
 
             }
-
         }
 
         public BitArray Encode(string source)
@@ -101,6 +108,37 @@ namespace Archivarius
             }
 
             return decoded;
+        }
+        
+        // Print tree function
+        public static StringBuilder printTree(HuffmanNode node, StringBuilder result)
+        {
+            if (node == null)
+            {
+                return result;
+            }
+
+            if (node.Symbol != '*')
+                result.Append("(" + node.Frequency + '-' + node.Symbol + "");
+            printTree(node.Left, result);
+            printTree(node.Right, result);
+            return result;
+        }
+
+        public static HuffmanTree TreeFromString(string source)
+        {
+            var tree = new HuffmanTree();
+            var regex = new Regex(@"(\d*)(-)(.)");
+            var matches = regex.Matches(source);
+            var huffmanNodes = new List<HuffmanNode>();
+            foreach (Match match in matches)
+            {
+                huffmanNodes.Add(new HuffmanNode(match.Groups[3].Value[0], int.Parse(match.Groups[1].Value)));
+                Console.WriteLine(match.Groups[3].Value[0] + " " +int.Parse(match.Groups[1].Value));
+            }
+
+            tree.CreateTree(huffmanNodes);
+            return tree;
         }
 
         private static bool IsLeaf(HuffmanNode huffmanNode) => huffmanNode.Left == null && huffmanNode.Right == null;

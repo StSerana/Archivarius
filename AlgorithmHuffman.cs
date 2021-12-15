@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Archivarius
@@ -8,7 +9,7 @@ namespace Archivarius
     public class AlgorithmHuffman : Algorithm
     {
         protected override string Prefix  => "h";
-        private HuffmanTree HuffmanTree { get; set; }
+        public HuffmanTree HuffmanTree { get; set; }
         
         private BitArray Result { get; set; }
 
@@ -33,16 +34,38 @@ namespace Archivarius
             Console.WriteLine();
             */
             // преобразуем строку в байты, записываем массива байтов в файл
-            var output = BitArrayToByteArray(encoded);
+            var a_bld = new StringBuilder();
+            var a = Encoding.Default.GetBytes(HuffmanTree.printTree(HuffmanTree.Root, a_bld) + "###");
+            var output = a.Concat(BitArrayToByteArray(encoded)).ToArray();
             
             // сохраняем сжатый файл
             WriteFile(encodedFile, output);
         }
 
+        public Tuple<string, byte[]> FindTree(byte[] c)
+        {
+            var o = Encoding.Default.GetBytes("###");
+            var index = 0;
+            for (var i = 0; i < c.Length; i++)
+            {
+                if (c[i] == o[0] && c[i + 1] == o[1] && c[i + 2] == o[2])
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            var tree = string.Join("", Encoding.Default.GetString(c.Take(index).ToArray()));
+            var source = c.Skip(index + 3).ToArray();
+            return Tuple.Create(tree, source);
+        }
+
         public override void Decompress(string encodedFile, string decodedFile)
         {
-            var bits = new BitArray(ReadFile(encodedFile));
+            var result = FindTree(ReadFile(encodedFile));
+            var bits = new BitArray(result.Item2);
 
+            //var b = HuffmanTree.TreeFromString(a).Root;
             // Декодируем файл
             var decoded = HuffmanTree.Decode(bits);
             //Console.WriteLine("Decoded: \n" + decoded);

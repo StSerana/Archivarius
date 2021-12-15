@@ -9,6 +9,14 @@ namespace Archivarius
         public HuffmanNode Right { get; init; }
         public HuffmanNode Left { get; init; }
 
+        public HuffmanNode()
+        {
+        }
+        public HuffmanNode(char symbol, int frequency)
+        {
+            this.Frequency = frequency;
+            this.Symbol = symbol;
+        }
         public List<bool> Traverse(char symbol, List<bool> data)
         {
             // Leaf
