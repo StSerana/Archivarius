@@ -11,7 +11,8 @@ namespace Archivarius
 
         public override void Compress(string inputFile, string encodedFile)
         {
-            var textFromFile = Encoding.Default.GetString(ReadFile(inputFile));
+            var file = ReadFile(inputFile);
+            var textFromFile = Encoding.Default.GetString(file);
             
             // создаем дерево Хаффмана на основе полученного файла
             var tree = new HuffmanTree();

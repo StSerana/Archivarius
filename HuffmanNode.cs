@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Archivarius
@@ -17,9 +18,11 @@ namespace Archivarius
             this.Frequency = frequency;
             this.Symbol = symbol;
         }
-        public List<bool> Traverse(char symbol, List<bool> data)
+        public List<bool> Traverse(char symbol, List<bool> data, int i)
         {
+            i++;
             // Leaf
+            Console.WriteLine("traverse " + i);
             if (Right == null && Left == null)
             {
                 return symbol.Equals(Symbol) ? data : null;
@@ -34,7 +37,7 @@ namespace Archivarius
                 leftPath.AddRange(data);
                 leftPath.Add(false);
 
-                left = Left.Traverse(symbol, leftPath);
+                left = Left.Traverse(symbol, leftPath, i);
             }
 
             if (Right != null)
@@ -42,7 +45,7 @@ namespace Archivarius
                 var rightPath = new List<bool>();
                 rightPath.AddRange(data);
                 rightPath.Add(true);
-                right = Right.Traverse(symbol, rightPath);
+                right = Right.Traverse(symbol, rightPath, i);
             }
 
             return left ?? right;

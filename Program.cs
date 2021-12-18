@@ -18,9 +18,11 @@ namespace Archivarius
 
         private static void RunHuffman()
         {
-            for (var i = 1; i < 4; i++)
+            for (var i = 1; i < 2; i++)
             {
                 var huffman = new AlgorithmHuffman();
+                huffman.Compress("/cats_input.jpg", "/cats_archive.abc");
+                huffman.Decompress("/cats_archive.abc", "/cats_output.jpg");
                 try
                 {
                     var filenames = huffman.GetFilenames(i);
@@ -37,7 +39,7 @@ namespace Archivarius
 
         private static void RunLZW()
         {
-            for (var i = 1; i < 4; i++)
+            for (var i = 1; i < 2; i++)
             {
                 var huffman = new AlgorithmLZW();
                 try

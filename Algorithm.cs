@@ -19,12 +19,13 @@ namespace Archivarius
 
         protected static byte[] ReadFile(string filename)
         {
-            using (var inputStream = File.OpenRead($"{PathToDirectory}{filename}"))
+            /*using (var inputStream = File.OpenRead($"{PathToDirectory}{filename}"))
             {
                 var input = new byte[inputStream.Length];
                 inputStream.Read(input, 0, input.Length);
                 return input;
-            }
+            }*/
+            return File.ReadAllBytes($"{PathToDirectory}{filename}");;
         }
 
         protected static void WriteFile(string filename, byte[] output)

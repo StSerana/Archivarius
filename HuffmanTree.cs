@@ -16,28 +16,34 @@ namespace Archivarius
 
         public void Build(string source)
         {
+            var i = 1;
             foreach (var t in source)
             {
+                Console.WriteLine("append new node " + i + " of " + source.Length);
                 if (!Frequencies.ContainsKey(t))
                 {
                     Frequencies.Add(t, 0);
                 }
 
                 Frequencies[t]++;
+                i++;
             }
 
             foreach (var (key, value) in Frequencies)
             {
                 nodes.Add(new HuffmanNode {Symbol = key, Frequency = value});
             }
-            
+            Console.WriteLine("get all symbols");
             CreateTree(nodes);
         }
 
         private void CreateTree(ICollection<HuffmanNode> huffmanNodes)
         {
+            var i = 1;
+            Console.WriteLine("create tree");
             while (huffmanNodes.Count > 1)
             {
+                Console.WriteLine("append new node " + i + " of " + huffmanNodes.Count);
                 var orderedNodes = huffmanNodes
                     .OrderBy(node => node.Frequency)
                     .ThenBy(node => node.Symbol)
@@ -71,7 +77,7 @@ namespace Archivarius
         {
             var encodedSource = new List<bool>();
 
-            foreach (var encodedSymbol in source.Select(t => Root.Traverse(t, new List<bool>())))
+            foreach (var encodedSymbol in source.Select(t => Root.Traverse(t, new List<bool>(), 0)))
             {
                 encodedSource.AddRange(encodedSymbol);
             }
@@ -104,6 +110,7 @@ namespace Archivarius
         
         public static StringBuilder TreeToString(HuffmanNode node, StringBuilder result)
         {
+            Console.WriteLine("tree to string");
             if (node == null)
                 return result;
 
