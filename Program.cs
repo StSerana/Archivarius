@@ -14,11 +14,13 @@ namespace Archivarius
         private static void Main(string[] args)
         {
             Console.WriteLine("Hello World! Know you can test different compression algorithms");
+            
             Console.WriteLine("Let's check Huffman's algorithm");
-            _archivarius.SelectedAlgorithmKey = 1;
+            _archivarius.SelectedAlgorithmKey = AlgorithmType.Huffman;
             RunCurrentAlgorithm();
+            
             Console.WriteLine("Let's check LZW algorithm");
-            _archivarius.SelectedAlgorithmKey = 2;
+            _archivarius.SelectedAlgorithmKey = AlgorithmType.Lzw;
             RunCurrentAlgorithm();
         }
 

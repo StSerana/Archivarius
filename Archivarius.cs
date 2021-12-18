@@ -8,17 +8,17 @@ namespace Archivarius
 {
     public class Archivarius
     {
-        public int SelectedAlgorithmKey = 1;
+        public AlgorithmType SelectedAlgorithmKey = AlgorithmType.Lzw;
         public Algorithm SelectedAlgorithm => _algorithms[SelectedAlgorithmKey];
         
         private FileManager _fileManager = new FileManager();
         private static Algorithm _algorithmLZW = new AlgorithmLZW();
         private static Algorithm _algorithmHuffman = new AlgorithmHuffman();
 
-        private Dictionary<int, Algorithm> _algorithms = new Dictionary<int, Algorithm>()
+        private Dictionary<AlgorithmType, Algorithm> _algorithms = new Dictionary<AlgorithmType, Algorithm>()
        {
-           {1, _algorithmLZW },
-           {2, _algorithmHuffman }
+           {AlgorithmType.Lzw, _algorithmLZW },
+           {AlgorithmType.Huffman, _algorithmHuffman }
        };
 
         public void Compress(string inputFile, string output)
