@@ -10,8 +10,9 @@ namespace Archivarius
     public class HuffmanTree
     {
         private List<HuffmanNode> nodes = new();
-        public HuffmanNode Root { get; set; }
-        private Dictionary<char, int> Frequencies = new();
+        private static readonly Regex TREE_NODE_PATTERN = new Regex(@"(\d*)(-)(.|\n|\t|\r)");
+        public HuffmanNode Root { get; private set; }
+        private readonly Dictionary<char, int> Frequencies = new();
 
         public void Build(string source)
         {
@@ -33,11 +34,14 @@ namespace Archivarius
             CreateTree(nodes);
         }
 
-        private void CreateTree(List<HuffmanNode> huffmanNodes)
+        private void CreateTree(ICollection<HuffmanNode> huffmanNodes)
         {
             while (huffmanNodes.Count > 1)
             {
-                var orderedNodes = huffmanNodes.OrderBy(node => node.Frequency).ToList();
+                var orderedNodes = huffmanNodes
+                    .OrderBy(node => node.Frequency)
+                    .ThenBy(node => node.Symbol)
+                    .ToList();
 
                 if (orderedNodes.Count >= 2)
                 {
@@ -67,9 +71,8 @@ namespace Archivarius
         {
             var encodedSource = new List<bool>();
 
-            for (var i = 0; i < source.Length; i++)
+            foreach (var encodedSymbol in source.Select(t => Root.Traverse(t, new List<bool>())))
             {
-                var encodedSymbol = this.Root.Traverse(source[i], new List<bool>());
                 encodedSource.AddRange(encodedSymbol);
             }
 
@@ -80,67 +83,61 @@ namespace Archivarius
 
         public string Decode(BitArray bits)
         {
-            var current = this.Root;
+            var current = Root;
             var decoded = "";
 
             foreach (bool bit in bits)
             {
                 if (bit)
                 {
-                    if (current.Right != null)
-                    {
-                        current = current.Right;
-                    }
+                    if (current.Right != null) current = current.Right;
                 }
-                else
-                {
-                    if (current.Left != null)
-                    {
-                        current = current.Left;
-                    }
-                }
+                else if (current.Left != null) current = current.Left;
 
-                if (IsLeaf(current))
-                {
-                    decoded += current.Symbol;
-                    current = this.Root;
-                }
+                if (!IsLeaf(current)) continue;
+                decoded += current.Symbol;
+                current = Root;
             }
 
             return decoded;
         }
         
-        // Print tree function
-        public static StringBuilder printTree(HuffmanNode node, StringBuilder result)
+        public static StringBuilder TreeToString(HuffmanNode node, StringBuilder result)
         {
             if (node == null)
-            {
                 return result;
-            }
 
             if (node.Symbol != '*')
                 result.Append("(" + node.Frequency + '-' + node.Symbol + "");
-            printTree(node.Left, result);
-            printTree(node.Right, result);
+            
+            TreeToString(node.Left, result);
+            TreeToString(node.Right, result);
             return result;
         }
 
         public static HuffmanTree TreeFromString(string source)
         {
             var tree = new HuffmanTree();
-            var regex = new Regex(@"(\d*)(-)(.)");
-            var matches = regex.Matches(source);
+            var matches = TREE_NODE_PATTERN.Matches(source);
             var huffmanNodes = new List<HuffmanNode>();
+            
             foreach (Match match in matches)
-            {
                 huffmanNodes.Add(new HuffmanNode(match.Groups[3].Value[0], int.Parse(match.Groups[1].Value)));
-                Console.WriteLine(match.Groups[3].Value[0] + " " +int.Parse(match.Groups[1].Value));
-            }
 
             tree.CreateTree(huffmanNodes);
             return tree;
         }
 
         private static bool IsLeaf(HuffmanNode huffmanNode) => huffmanNode.Left == null && huffmanNode.Right == null;
+        
+        public static Tuple<string, byte[]> FindTree(IReadOnlyList<byte> source, IReadOnlyList<byte> delimiter)
+        {
+            var index = ByteArrayConverter.ByteArrayPatternSearch(delimiter, source);
+
+            var tree = string.Join("", Encoding.Default.GetString(source.Take(index).ToArray()));
+            var encoded = source.Skip(index + delimiter.Count).ToArray();
+            
+            return Tuple.Create(tree, encoded);
+        }
     }
 }

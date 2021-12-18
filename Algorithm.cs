@@ -2,13 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Archivarius
 {
     public abstract class Algorithm
     {
-        private const string PathToDirectory = "/Users/serana/RiderProjects/Archivarius/testSource";
         private readonly List<string> _filenames  = new() {"input.txt", "archive.txt", "output.txt"};
+        private const string PathToDirectory = "/Users/serana/RiderProjects/Archivarius/testSource";
+
+        protected const string DELIMITER = "###";
+        protected static readonly byte[] BYTES_DELIMITER = Encoding.Default.GetBytes(DELIMITER);
         protected virtual string Prefix => "";
         public abstract void Compress(string inputFile, string encodedFile);
         public abstract void Decompress(string encodedFile, string decodedFile);

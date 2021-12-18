@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -9,12 +7,12 @@ namespace Archivarius
 {
     public class AlgorithmLZW : Algorithm
     {
-        private ArrayList Dictionary { get; set; }
         protected override string Prefix  => "l";
 
         public override void Compress(string inputFile, string encodedFile)
         {
             var textFromFile = Encoding.Default.GetString(ReadFile(inputFile));
+            
             // строим словарь
             var dictionary = new Dictionary<string, int>();
             for (var i = 0; i < 256; i++)
@@ -23,13 +21,11 @@ namespace Archivarius
             var w = string.Empty;
             var compressed = new List<int>();
 
-            foreach (char c in textFromFile)
+            foreach (var c in textFromFile)
             {
                 var wc = w + c;
                 if (dictionary.ContainsKey(wc))
-                {
                     w = wc;
-                }
                 else
                 {
                     // добавляем новый символ в архив
@@ -74,12 +70,10 @@ namespace Archivarius
                 decompressed.Append(entry);
 
                 // добавим новую подстроку в словарь
-                if (entry != null)
-                {
-                    dictionary.Add(dictionary.Count, w + entry[0]);
+                if (entry == null) continue;
+                dictionary.Add(dictionary.Count, w + entry[0]);
 
-                    w = entry;
-                }
+                w = entry;
             }
 
             // преобразуем строку в байты, записываем массива байтов в файл
