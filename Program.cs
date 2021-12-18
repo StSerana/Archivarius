@@ -7,51 +7,41 @@ namespace Archivarius
 {
     class Program
     {
-        static void Main(string[] args)
+        private static Archivarius _archivarius = new Archivarius();
+        private static readonly List<string> Filenames  = new() {"input.txt", "arch.txt", "out.txt"};
+        private const string PathToDirectory = "/Users/stanislavilin/RiderProjects/Archivarius/testSource";
+
+        private static void Main(string[] args)
         {
             Console.WriteLine("Hello World! Know you can test different compression algorithms");
             Console.WriteLine("Let's check Huffman's algorithm");
-            RunHuffman();
+            _archivarius.SelectedAlgorithmKey = 1;
+            RunCurrentAlgorithm();
             Console.WriteLine("Let's check LZW algorithm");
-            RunLZW();
+            _archivarius.SelectedAlgorithmKey = 2;
+            RunCurrentAlgorithm();
         }
 
-        private static void RunHuffman()
+        private static void RunCurrentAlgorithm()
         {
             for (var i = 1; i < 4; i++)
             {
-                var huffman = new AlgorithmHuffman();
                 try
                 {
-                    var filenames = huffman.GetFilenames(i);
-                    huffman.Compress(filenames[0], filenames[1]);
-                    huffman.Decompress(filenames[1], filenames[2]);
+                    var filenames = GetFilenames(_archivarius.SelectedAlgorithm.Prefix, i);
+                    
+                    _archivarius.Compress($"{PathToDirectory}{filenames[0]}", $"{PathToDirectory}{filenames[1]}");
+                    _archivarius.Decompress($"{PathToDirectory}{filenames[1]}", $"{PathToDirectory}{filenames[2]}");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     Console.WriteLine("some error");
+                    Console.WriteLine(e);
                 }
                 
             }
         }
 
-        private static void RunLZW()
-        {
-            for (var i = 1; i < 4; i++)
-            {
-                var huffman = new AlgorithmLZW();
-                try
-                {
-                    var filenames = huffman.GetFilenames(i);
-                    huffman.Compress(filenames[0], filenames[1]);
-                    huffman.Decompress(filenames[1], filenames[2]);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("some error");
-                }
-                
-            }
-        }
+        private static List<string> GetFilenames(string prefix, int testNumber) => (from name in Filenames let testPrefix = $"/{prefix}_{testNumber}_" select testPrefix + name).ToList();
     }
 }

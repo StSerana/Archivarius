@@ -7,36 +7,28 @@ namespace Archivarius
 {
     public class AlgorithmHuffman : Algorithm
     {
-        protected override string Prefix  => "h";
+        public override string Prefix  => "h";
 
-        public override void Compress(string inputFile, string encodedFile)
+        public override byte[] Compress(string text)
         {
-            var textFromFile = Encoding.Default.GetString(ReadFile(inputFile));
-            
             // создаем дерево Хаффмана на основе полученного файла
             var tree = new HuffmanTree();
-            tree.Build(textFromFile);
+            tree.Build(text);
 
             // сжимаем файл
-            var encoded = tree.Encode(textFromFile);
+            var encoded = tree.Encode(text);
             
             // преобразуем дерево в строку
             var encodedTree = Encoding.Default.GetBytes(HuffmanTree.TreeToString(tree.Root, new StringBuilder()) + DELIMITER);
 
             // преобразуем строку в байты, добавляем дерево
             var output = encodedTree.Concat(ByteArrayConverter.BitArrayToByteArray(encoded)).ToArray();
-            
-            //  записываем массив байтов в файл, сохраняем сжатый файл
-            WriteFile(encodedFile, output);
+            return output;
         }
-
         
-
-        
-
-        public override void Decompress(string encodedFile, string decodedFile)
+        public override byte[] Decompress(byte[] bytes)
         {
-            var (stringTree, encoded) = HuffmanTree.FindTree(ReadFile(encodedFile), BYTES_DELIMITER);
+            var (stringTree, encoded) = HuffmanTree.FindTree(bytes, BYTES_DELIMITER);
             var bits = new BitArray(encoded);
             var tree = HuffmanTree.TreeFromString(stringTree);
             
@@ -46,8 +38,7 @@ namespace Archivarius
             // преобразуем строку в байты, записываем массива байтов в файл
             var output = Encoding.Default.GetBytes(decoded);
             
-            // сохраняем декодированный файл
-            WriteFile(decodedFile, output);
+            return output;
         }
         
     }

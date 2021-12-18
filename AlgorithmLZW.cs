@@ -7,12 +7,10 @@ namespace Archivarius
 {
     public class AlgorithmLZW : Algorithm
     {
-        protected override string Prefix  => "l";
+        public override string Prefix  => "l";
 
-        public override void Compress(string inputFile, string encodedFile)
+        public override byte[] Compress(string text)
         {
-            var textFromFile = Encoding.Default.GetString(ReadFile(inputFile));
-            
             // строим словарь
             var dictionary = new Dictionary<string, int>();
             for (var i = 0; i < 256; i++)
@@ -21,7 +19,7 @@ namespace Archivarius
             var w = string.Empty;
             var compressed = new List<int>();
 
-            foreach (var c in textFromFile)
+            foreach (var c in text)
             {
                 var wc = w + c;
                 if (dictionary.ContainsKey(wc))
@@ -40,12 +38,12 @@ namespace Archivarius
             if (!string.IsNullOrEmpty(w))
                 compressed.Add(dictionary[w]);
 
-            WriteFile(encodedFile, compressed.SelectMany(BitConverter.GetBytes).ToArray());
+           return compressed.SelectMany(BitConverter.GetBytes).ToArray();
         }
 
-        public override void Decompress(string encodedFile, string decodedFile)
+        public override byte[] Decompress(byte[] bytes)
         {
-            var bytes = ReadFile(encodedFile);
+            
             var compressed= Enumerable.Range(0, bytes.Length / 4)
                 .Select(i => BitConverter.ToInt32(bytes, i * 4))
                 .ToList();
@@ -78,9 +76,7 @@ namespace Archivarius
 
             // преобразуем строку в байты, записываем массива байтов в файл
             var output = Encoding.Default.GetBytes(decompressed.ToString());
-            
-            // сохраняем декодированный файл
-            WriteFile(decodedFile, output);
+            return output;
         }
         
     }
