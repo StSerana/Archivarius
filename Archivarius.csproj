@@ -5,4 +5,23 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="NUnit" Version="3.13.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="testSource\h_1_archive.txt" />
+      <None Remove="testSource\h_1_output.txt" />
+      <None Remove="testSource\h_2_archive.txt" />
+      <None Remove="testSource\h_3_archive.txt" />
+      <None Remove="testSource\h_2_output.txt" />
+      <None Remove="testSource\h_3_output.txt" />
+      <None Remove="testSource\l_1_archive.txt" />
+      <None Remove="testSource\l_1_output.txt" />
+      <None Remove="testSource\l_2_archive.txt" />
+      <None Remove="testSource\l_3_archive.txt" />
+      <None Remove="testSource\l_2_output.txt" />
+      <None Remove="testSource\l_3_output.txt" />
+    </ItemGroup>
+
 </Project>
