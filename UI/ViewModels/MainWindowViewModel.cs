@@ -3,25 +3,40 @@ using Avalonia.Interactivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using UI.Models;
+using ReactiveUI;
+using System.Runtime.CompilerServices;
 
 namespace UI.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         public ObservableCollection<ArchivariusEntity> CurrentDirectoryContent { get; }
-        public string CurrentDirectoryPath { get; set; }
+        private string currentDirectoryPath;
+        public string CurrentDirectoryPath 
+        { 
+            get => currentDirectoryPath; 
+            set => this.RaiseAndSetIfChanged(ref currentDirectoryPath, value); 
+        }
 
         public MainWindowViewModel()
-        {
+        {            
             CurrentDirectoryContent = new ObservableCollection<ArchivariusEntity>();
             CurrentDirectoryPath = Directory.GetCurrentDirectory();
-
+            
             UpdateCurrentDirectoryContent();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void UpdateCurrentDirectoryContent()
@@ -39,8 +54,27 @@ namespace UI.ViewModels
             var dataGrid = (DataGrid)sender;
             var index = dataGrid.SelectedIndex; // tap index
 
-            var item = CurrentDirectoryContent[index];            
-            Debug.WriteLine(CurrentDirectoryContent[index].Name);
+            var item = CurrentDirectoryContent[index];      
+            
+            Debug.WriteLine(item.Name);                       
+        }
+
+        private void ChangeCurrentDirectory(string newPath)
+        {
+            if (FileSystem.CheckIfDirectoryExists(newPath))
+            {
+                CurrentDirectoryPath = newPath;
+                this.RaisePropertyChanged("CurrentDirectoryPath");
+            }
+            else
+            {
+                //add handle (show err msg?)
+            }
+        }
+
+        public void OnGoUpButtonTap(object? sender, RoutedEventArgs args)
+        {
+            ChangeCurrentDirectory(Path.GetFullPath("../"));
         }
 
         public string Greeting => "Welcome to Avalonia!";

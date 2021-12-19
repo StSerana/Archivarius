@@ -22,5 +22,10 @@ namespace UI.Models
 
             return dirContent;
         }
+
+        public static bool CheckIfDirectoryExists(string path)
+        {
+            return Directory.Exists(path);
+        }
     }
 }

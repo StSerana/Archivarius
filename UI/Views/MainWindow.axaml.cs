@@ -25,6 +25,16 @@ namespace UI.Views
             {
                 viewModel.OnCurrentDirectoryGridTap(s, a);
             };
+
+            this.FindControl<Button>("GoUpButton").Tapped += (s, a) =>
+            {
+                viewModel.OnGoUpButtonTap(s, a);
+            };
+
+            viewModel.PropertyChanged += (s, a) =>
+            {
+                
+            };
         }
 
         private void InitializeComponent()
