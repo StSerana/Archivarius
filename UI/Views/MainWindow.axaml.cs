@@ -9,22 +9,21 @@ using System.Diagnostics;
 namespace UI.Views
 {
     public partial class MainWindow : Window
-    {        
+    {
+        private ViewModels.MainWindowViewModel viewModel = new ViewModels.MainWindowViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
 #endif
-            DataContext = new ViewModels.MainWindowViewModel();
+            DataContext = viewModel;
 
+            //колхоз для того чтобы передать событие во вьюмодель. по логике вещей, должно делаться в разметке, но не делается.
             this.FindControl<DataGrid>("CurrentDirectoryContentGrid").Tapped += (s, a) =>
             {
-                var dataGrid = (DataGrid)s;
-
-                var index = dataGrid.SelectedIndex; // tap index
-
-
+                viewModel.OnCurrentDirectoryGridTap(s, a);
             };
         }
 

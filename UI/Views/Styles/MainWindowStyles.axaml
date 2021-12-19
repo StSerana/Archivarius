@@ -50,15 +50,12 @@
 		<Setter Property="Height" Value="50"></Setter>
 	</Style>
 	
-	<Style Selector="DataGridRow:pointerover">
-		<Setter Property="Background" Value="#cccccc"></Setter>
+	<Style Selector="DataGridRow">				
+		<Setter Property="BorderThickness" Value="3"/>
+		<Setter Property="BorderBrush" Value="Black" />
 	</Style>
 
-	<Style Selector="DataGridRow:nth-child(2n)">
-		<Setter Property="Background" Value="#F3F3F3"></Setter>
-	</Style>
-
-	<Style Selector="DataGridRow:nth-child(2n):pointerover">
-		<Setter Property="Background" Value="#b3b3b3"></Setter>
+	<Style Selector="DataGridRow:hover /template/ ContentPresenter" >
+		<Setter Property="Background" Value="Black" />
 	</Style>
 </Styles>

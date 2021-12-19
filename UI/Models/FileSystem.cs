@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Archivarius;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,11 +10,9 @@ namespace UI.Models
 {
     public class FileSystem
     {
-        public static string CurrentDirectory = "D:/Sharaga";
-
-        public static List<ArchivariusEntity> GetCurrentDirectoryContent()
+        public static List<ArchivariusEntity> GetDirectoryContent(string path)
         {
-            var dirContent = Directory.GetFileSystemEntries(CurrentDirectory).Select(entry =>
+            var dirContent = Directory.GetFileSystemEntries(path).Select(entry =>
             {
                 var file = new FileInfo(entry);
                 var extension = file.Exists ? file.Extension : null;

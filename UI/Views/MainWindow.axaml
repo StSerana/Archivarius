@@ -66,7 +66,7 @@
 					  CanUserResizeColumns="False" CanUserSortColumns="False" 
 					  Items="{Binding CurrentDirectoryContent}">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="Type" Binding="{Binding Type}" MinWidth="300" IsReadOnly="True"/>
+					<DataGridTextColumn Header="Type" Binding="{Binding TypeTranslation}" MinWidth="300" IsReadOnly="True"/>
 					<DataGridTextColumn Header="Name" Binding="{Binding Name}" MinWidth="400" IsReadOnly="True" />					
 				</DataGrid.Columns>				
 			</DataGrid>
