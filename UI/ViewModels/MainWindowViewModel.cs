@@ -20,8 +20,11 @@ namespace UI.ViewModels
         private string currentDirectoryPath;
         public string CurrentDirectoryPath 
         { 
-            get => currentDirectoryPath; 
-            set => this.RaiseAndSetIfChanged(ref currentDirectoryPath, value); 
+            get => currentDirectoryPath;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref currentDirectoryPath, value);
+            } 
         }
 
         public MainWindowViewModel()
@@ -32,12 +35,7 @@ namespace UI.ViewModels
             UpdateCurrentDirectoryContent();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
 
         private void UpdateCurrentDirectoryContent()
         {
@@ -60,7 +58,7 @@ namespace UI.ViewModels
         }
 
         private void ChangeCurrentDirectory(string newPath)
-        {
+        {            
             if (FileSystem.CheckIfDirectoryExists(newPath))
             {
                 CurrentDirectoryPath = newPath;
@@ -74,7 +72,7 @@ namespace UI.ViewModels
 
         public void OnGoUpButtonTap(object? sender, RoutedEventArgs args)
         {
-            ChangeCurrentDirectory(Path.GetFullPath("../"));
+            ChangeCurrentDirectory(Path.GetFullPath(Path.Combine(CurrentDirectoryPath, @"../")));
         }
 
         public string Greeting => "Welcome to Avalonia!";
