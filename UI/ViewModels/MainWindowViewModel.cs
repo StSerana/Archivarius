@@ -62,6 +62,7 @@ namespace UI.ViewModels
             if (FileSystem.CheckIfDirectoryExists(newPath))
             {
                 CurrentDirectoryPath = newPath;
+                UpdateCurrentDirectoryContent();
                 this.RaisePropertyChanged("CurrentDirectoryPath");
             }
             else
