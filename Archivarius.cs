@@ -15,7 +15,7 @@ namespace Archivarius
         private static Algorithm _algorithmLZW = new AlgorithmLZW();
         private static Algorithm _algorithmHuffman = new AlgorithmHuffman();
 
-        private Dictionary<AlgorithmType, Algorithm> _algorithms = new Dictionary<AlgorithmType, Algorithm>()
+        private Dictionary<AlgorithmType, Algorithm> _algorithms = new()
        {
            {AlgorithmType.Lzw, _algorithmLZW },
            {AlgorithmType.Huffman, _algorithmHuffman }
@@ -24,6 +24,7 @@ namespace Archivarius
         public void Compress(string inputFile, string output)
         {
             var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile(inputFile));
+            Console.WriteLine(textFromFile);
             var compressed = SelectedAlgorithm.Compress(textFromFile);
             //  записываем массив байтов в файл, сохраняем сжатый файл
             _fileManager.WriteFile(output, compressed);

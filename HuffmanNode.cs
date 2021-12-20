@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Archivarius
 {
@@ -18,37 +19,43 @@ namespace Archivarius
             this.Frequency = frequency;
             this.Symbol = symbol;
         }
-        public List<bool> Traverse(char symbol, List<bool> data, int i)
+        public static void Traverse(HuffmanNode root, string data, Dictionary<char, List<bool>> result)
         {
-            i++;
-            // Leaf
-            Console.WriteLine("traverse " + i);
-            if (Right == null && Left == null)
+            if (root == null)
+                return;
+
+            // found a leaf node
+            if (root.Left == null && root.Right == null)
             {
-                return symbol.Equals(Symbol) ? data : null;
+                result.Add(root.Symbol, getBinary(data));
+                return;
             }
 
-            List<bool> left = null;
-            List<bool> right = null;
 
-            if (Left != null)
+            Traverse(root.Left, data + "0", result);
+            Traverse(root.Right,data + "1", result);
+        }
+        
+        public static void ReverseTraverse(HuffmanNode root, string data, Dictionary<string, char> result)
+        {
+            if (root == null)
+                return;
+
+            // found a leaf node
+            if (root.Left == null && root.Right == null)
             {
-                var leftPath = new List<bool>();
-                leftPath.AddRange(data);
-                leftPath.Add(false);
-
-                left = Left.Traverse(symbol, leftPath, i);
+                result.Add(data, root.Symbol);
+                return;
             }
 
-            if (Right != null)
-            {
-                var rightPath = new List<bool>();
-                rightPath.AddRange(data);
-                rightPath.Add(true);
-                right = Right.Traverse(symbol, rightPath, i);
-            }
 
-            return left ?? right;
+            ReverseTraverse(root.Left, data + "0", result);
+            ReverseTraverse(root.Right,data + "1", result);
+        }
+
+        private static List<bool> getBinary(string src)
+        {
+            return src.Select(s => s.ToString() == "1").ToList();
         }
     }
 }

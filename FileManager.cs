@@ -7,23 +7,8 @@ namespace Archivarius
 {
     public class FileManager
     {
-        public byte[] ReadFile(string filePath)
-        {
-            using (var inputStream = File.OpenRead(filePath))
-            {
-                var input = new byte[inputStream.Length];
-                inputStream.Read(input, 0, input.Length);
-                return input;
-            }
-        }
+        public byte[] ReadFile(string filePath) => File.ReadAllBytes(filePath);
 
-        public void WriteFile(string filePath, byte[] output)
-        {
-            using (var outputStream = new FileStream(filePath, FileMode.OpenOrCreate))
-            {
-                outputStream.Write(output, 0, output.Length);
-                Console.WriteLine("Текст записан в файл");
-            }
-        }
+        public void WriteFile(string filePath, byte[] output) => File.WriteAllBytes(filePath, output);
     }
 }

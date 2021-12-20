@@ -10,7 +10,7 @@ namespace Archivarius
     public class HuffmanTree
     {
         private List<HuffmanNode> nodes = new();
-        private static readonly Regex TREE_NODE_PATTERN = new Regex(@"(\d*)(-)(.|\n|\t|\r)");
+        private static readonly Regex TREE_NODE_PATTERN = new(@"(\d*)(-)(.|\n|\t|\r|[^\u0000-\u007F]+)");
         public HuffmanNode Root { get; private set; }
         private readonly Dictionary<char, int> Frequencies = new();
 
@@ -19,7 +19,7 @@ namespace Archivarius
             var i = 1;
             foreach (var t in source)
             {
-                Console.WriteLine("append new node " + i + " of " + source.Length);
+                //Console.WriteLine("append new node " + i + " of " + source.Length);
                 if (!Frequencies.ContainsKey(t))
                 {
                     Frequencies.Add(t, 0);
@@ -33,7 +33,7 @@ namespace Archivarius
             {
                 nodes.Add(new HuffmanNode {Symbol = key, Frequency = value});
             }
-            Console.WriteLine("get all symbols");
+            //Console.WriteLine("get all symbols");
             CreateTree(nodes);
         }
 
@@ -43,7 +43,7 @@ namespace Archivarius
             Console.WriteLine("create tree");
             while (huffmanNodes.Count > 1)
             {
-                Console.WriteLine("append new node " + i + " of " + huffmanNodes.Count);
+                //Console.WriteLine("append new node " + i + " of " + huffmanNodes.Count);
                 var orderedNodes = huffmanNodes
                     .OrderBy(node => node.Frequency)
                     .ThenBy(node => node.Symbol)
@@ -76,12 +76,12 @@ namespace Archivarius
         public BitArray Encode(string source)
         {
             var encodedSource = new List<bool>();
-
-            foreach (var encodedSymbol in source.Select(t => Root.Traverse(t, new List<bool>(), 0)))
+            var treeDictionary = new Dictionary<char, List<bool>>();
+            HuffmanNode.Traverse(Root, "", treeDictionary);
+            foreach (var symbol in source)
             {
-                encodedSource.AddRange(encodedSymbol);
+                encodedSource.AddRange(treeDictionary[symbol]);
             }
-
             var bits = new BitArray(encodedSource.ToArray());
 
             return bits;
@@ -91,18 +91,21 @@ namespace Archivarius
         {
             var current = Root;
             var decoded = "";
+            var treeDictionary = new Dictionary<string, char>();
+            HuffmanNode.ReverseTraverse(Root, "", treeDictionary);
 
-            foreach (bool bit in bits)
+            for (var i = 0; i < bits.Count; i++)
             {
-                if (bit)
+                //Console.WriteLine("find key for " + i);
+                var key = "";
+                for (var j = i; j < bits.Count; j++)
                 {
-                    if (current.Right != null) current = current.Right;
+                    key += bits[j] ? 1 : 0;
+                    if (!treeDictionary.ContainsKey(key)) continue;
+                    decoded += treeDictionary[key];
+                    i = j;
+                    break;
                 }
-                else if (current.Left != null) current = current.Left;
-
-                if (!IsLeaf(current)) continue;
-                decoded += current.Symbol;
-                current = Root;
             }
 
             return decoded;
@@ -110,7 +113,7 @@ namespace Archivarius
         
         public static StringBuilder TreeToString(HuffmanNode node, StringBuilder result)
         {
-            Console.WriteLine("tree to string");
+            //Console.WriteLine("tree to string");
             if (node == null)
                 return result;
 
@@ -126,6 +129,7 @@ namespace Archivarius
         {
             var tree = new HuffmanTree();
             var matches = TREE_NODE_PATTERN.Matches(source);
+            Console.WriteLine(source);
             var huffmanNodes = new List<HuffmanNode>();
             
             foreach (Match match in matches)
