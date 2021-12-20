@@ -7,48 +7,41 @@ namespace Archivarius
 {
     public class AlgorithmHuffman : Algorithm
     {
-        protected override string Prefix  => "h";
+        public override string Prefix  => "h";
+        private string encodestr = "";
+        private string decodestr = "";
 
-        public override void Compress(string inputFile, string encodedFile)
+        public override byte[] Compress(string text)
         {
-            var file = ReadFile(inputFile);
-            var textFromFile = Encoding.Default.GetString(file);
-            
             // создаем дерево Хаффмана на основе полученного файла
             var tree = new HuffmanTree();
-            tree.Build(textFromFile);
+            tree.Build(text);
 
             // сжимаем файл
-            var encoded = tree.Encode(textFromFile);
+            var encoded = tree.Encode(text);
             
             // преобразуем дерево в строку
+            encodestr = HuffmanTree.TreeToString(tree.Root, new StringBuilder()).ToString();
             var encodedTree = Encoding.Default.GetBytes(HuffmanTree.TreeToString(tree.Root, new StringBuilder()) + DELIMITER);
 
             // преобразуем строку в байты, добавляем дерево
             var output = encodedTree.Concat(ByteArrayConverter.BitArrayToByteArray(encoded)).ToArray();
-            
-            //  записываем массив байтов в файл, сохраняем сжатый файл
-            WriteFile(encodedFile, output);
+            return output;
         }
-
         
-
-        
-
-        public override void Decompress(string encodedFile, string decodedFile)
+        public override byte[] Decompress(byte[] bytes)
         {
-            var (stringTree, encoded) = HuffmanTree.FindTree(ReadFile(encodedFile), BYTES_DELIMITER);
+            var (stringTree, encoded) = HuffmanTree.FindTree(bytes, BYTES_DELIMITER);
             var bits = new BitArray(encoded);
             var tree = HuffmanTree.TreeFromString(stringTree);
-            
+            decodestr = stringTree;
             // Декодируем файл
             var decoded = tree.Decode(bits);
 
             // преобразуем строку в байты, записываем массива байтов в файл
             var output = Encoding.Default.GetBytes(decoded);
             
-            // сохраняем декодированный файл
-            WriteFile(decodedFile, output);
+            return output;
         }
         
     }
