@@ -21,21 +21,30 @@ namespace Archivarius
            {AlgorithmType.Huffman, _algorithmHuffman }
        };
 
-        public void Compress(string inputFile, string output)
+        public void Compress(string filePath, string filename)
         {
-            var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile(inputFile));
+            var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile($"{filePath}/{filename}"));
             Console.WriteLine(textFromFile);
-            var compressed = SelectedAlgorithm.Compress(textFromFile);
+            var compressed = SelectedAlgorithm.Compress(textFromFile, filename);
             //  записываем массив байтов в файл, сохраняем сжатый файл
-            _fileManager.WriteFile(output, compressed);
+            _fileManager.WriteFile($"{filePath}/arch_{filename}", compressed);
         }
 
-        public void Decompress(string inputFile, string output)
+        public void AppendFile(string filePath, string filename, string currentArchiveName)
         {
-            var textFromFile = _fileManager.ReadFile(inputFile);
+            var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile($"{filePath}/{filename}"));
+            var archive = _fileManager.ReadFile($"{filePath}/{currentArchiveName}");
+            var updatedArchive = SelectedAlgorithm.AppendFile(archive, textFromFile, filename);
+            _fileManager.DeleteFile($"{filePath}/{currentArchiveName}");
+            _fileManager.WriteFile($"{filePath}/{currentArchiveName}", updatedArchive);
+        }
+
+        public void Decompress(string filepath, string inputFile)
+        {
+            var textFromFile = _fileManager.ReadFile($"{filepath}/{inputFile}");
             var compressed = SelectedAlgorithm.Decompress(textFromFile);
             //  записываем массив байтов в файл, сохраняем сжатый файл
-            _fileManager.WriteFile(output, compressed);
+            _fileManager.WriteFile(filepath, compressed);
         }
     }
 }
