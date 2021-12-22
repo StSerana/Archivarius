@@ -11,12 +11,14 @@ using System.Text;
 using UI.Models;
 using ReactiveUI;
 using System.Runtime.CompilerServices;
+using Archivarius;
 
 namespace UI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         public ObservableCollection<ArchivariusEntity> CurrentDirectoryContent { get; }
+        public bool IsDirectoryEmpty { get => CurrentDirectoryContent?.Count == 0; }
         private string currentDirectoryPath;
         public string CurrentDirectoryPath 
         { 
@@ -54,7 +56,16 @@ namespace UI.ViewModels
 
             var item = CurrentDirectoryContent[index];      
             
-            Debug.WriteLine(item.Name);                       
+            Debug.WriteLine(item.Name);
+
+            if (item.IsDirectory)
+                ChangeCurrentDirectory(item.Path);
+            else
+            {
+                var outputPath = Path.Combine(item.DirectoryPath, "_" + item.Name);
+
+                new AlgorithmLZW().Compress(item.Path, outputPath);
+            }
         }
 
         private void ChangeCurrentDirectory(string newPath)
@@ -64,6 +75,7 @@ namespace UI.ViewModels
                 CurrentDirectoryPath = newPath;
                 UpdateCurrentDirectoryContent();
                 this.RaisePropertyChanged("CurrentDirectoryPath");
+                this.RaisePropertyChanged("IsDirectoryEmpty");
             }
             else
             {

@@ -14,6 +14,7 @@ namespace UI.Models
         public bool IsDirectory { get; private set; }
         public EntityType Type { get; private set; }
         public string TypeTranslation { get; private set; }
+        public string DirectoryPath { get; private set; }
 
         public ArchivariusEntity(string name, string path, string extension = null)
         {
@@ -21,6 +22,7 @@ namespace UI.Models
             Path = path;
             Extension = extension;
             IsDirectory = extension == null;
+            DirectoryPath = System.IO.Path.GetDirectoryName(Path);
 
             if (Extension == ".zip") //у нас же .zip, да?
                 Type = EntityType.Archive;

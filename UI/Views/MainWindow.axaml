@@ -69,7 +69,7 @@
 					<DataGridTextColumn Header="Type" Binding="{Binding TypeTranslation}" MinWidth="300" IsReadOnly="True"/>
 					<DataGridTextColumn Header="Name" Binding="{Binding Name}" MinWidth="400" IsReadOnly="True" />					
 				</DataGrid.Columns>				
-			</DataGrid>
+			</DataGrid>			
 		</StackPanel>
 	</Border>
 </Window>

@@ -9,9 +9,9 @@ namespace Archivarius
     {
         protected override string Prefix  => "l";
 
-        public override void Compress(string inputFile, string encodedFile)
+        public override void Compress(string inputPath, string outputPath)
         {
-            var file = ReadFile(inputFile);
+            var file = ReadFile(inputPath);
             var textFromFile = Encoding.Default.GetString(file);
             
             // строим словарь
@@ -41,7 +41,7 @@ namespace Archivarius
             if (!string.IsNullOrEmpty(w))
                 compressed.Add(dictionary[w]);
 
-            WriteFile(encodedFile, compressed.SelectMany(BitConverter.GetBytes).ToArray());
+            WriteFile(outputPath, compressed.SelectMany(BitConverter.GetBytes).ToArray());
         }
 
         public override void Decompress(string encodedFile, string decodedFile)

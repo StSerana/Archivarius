@@ -21,7 +21,7 @@ namespace UI.Views
             //колхоз для того чтобы передать событие во вьюмодель. по логике вещей, должно делаться в разметке, но не делается.
             this.FindControl<DataGrid>("CurrentDirectoryContentGrid").Tapped += (s, a) =>
             {
-                viewModel.OnCurrentDirectoryGridTap(s, a);
+                (DataContext as MainWindowViewModel).OnCurrentDirectoryGridTap(s, a);
             };
             
             this.FindControl<Button>("GoUpButton").Tapped += (s, a) =>
