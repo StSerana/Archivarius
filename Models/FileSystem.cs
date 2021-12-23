@@ -13,7 +13,7 @@ namespace UI.Models
     {
         public readonly static List<string> SupportedFileExtenstions = new List<string>() 
         {
-            ".txt", ".jpg" //add jpeg/png?
+            ".txt", ".jpg", ".archivarius" //add jpeg/png?
         };
 
         public static List<ArchivariusEntity> GetDirectoryContent(string path)

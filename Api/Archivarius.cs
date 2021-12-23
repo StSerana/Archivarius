@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -26,8 +27,10 @@ namespace Archivarius
             var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile($"{filePath}/{filename}"));
             Console.WriteLine(textFromFile);
             var compressed = SelectedAlgorithm.Compress(textFromFile, filename);
+            var outputPath = Path.Combine(filePath, "output-" + filename);
             //  записываем массив байтов в файл, сохраняем сжатый файл
-            _fileManager.WriteFile($"{filePath}/arch_{filename}", compressed);
+            _fileManager.WriteFile(outputPath, compressed);
+            _fileManager.ChangeFileExtension(outputPath, ".archivarius");
         }
 
         public void AppendFile(string filePath, string filename, string currentArchiveName)
@@ -39,12 +42,21 @@ namespace Archivarius
             _fileManager.WriteFile($"{filePath}/{currentArchiveName}", updatedArchive);
         }
 
-        public void Decompress(string filepath, string inputFile)
+        public void Decompress(string directoryPath, string archiveName)
         {
-            var textFromFile = _fileManager.ReadFile($"{filepath}/{inputFile}");
-            var compressed = SelectedAlgorithm.Decompress(textFromFile);
+            var fullArchivePath = Path.Combine(directoryPath, archiveName);
+
+            var textFromFile = _fileManager.ReadFile(fullArchivePath);
+            var decompressed = SelectedAlgorithm.Decompress(textFromFile);
             //  записываем массив байтов в файл, сохраняем сжатый файл
-            _fileManager.WriteFile(filepath, compressed);
+            
+            foreach (var fileInfo in decompressed)
+            {
+                var fullFilePath = Path.Combine(directoryPath, fileInfo.Key);
+
+                _fileManager.WriteFile(directoryPath, decompressed);
+                _fileManager.ChangeFileExtension(fullFilePath, ".txt");
+            }
         }
     }
 }

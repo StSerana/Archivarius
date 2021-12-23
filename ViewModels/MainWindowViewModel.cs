@@ -20,6 +20,7 @@ namespace UI.ViewModels
         public ObservableCollection<ArchivariusEntity> CurrentDirectoryContent { get; }
         public bool IsDirectoryEmpty { get => CurrentDirectoryContent?.Count == 0; }
         private string currentDirectoryPath;
+        private Archivarius.Archivarius api = new Archivarius.Archivarius();
         public string CurrentDirectoryPath 
         { 
             get => currentDirectoryPath;
@@ -60,11 +61,16 @@ namespace UI.ViewModels
 
             if (item.IsDirectory)
                 ChangeCurrentDirectory(item.Path);
+            else if (item.IsArchive) { //change to smtg more reliable
+                api.Decompress(item.DirectoryPath, item.Name);
+
+                UpdateCurrentDirectoryContent();
+            }
             else
             {
-                var outputPath = Path.Combine(item.DirectoryPath, "_" + item.Name);
+                api.Compress(item.DirectoryPath, item.Name);
 
-                new AlgorithmLZW().Compress(item.Path, outputPath);
+                UpdateCurrentDirectoryContent();
             }
         }
 

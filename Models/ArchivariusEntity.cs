@@ -12,6 +12,7 @@ namespace UI.Models
         public string Path { get; private set; }
         public string Extension { get; private set; }
         public bool IsDirectory { get; private set; }
+        public bool IsArchive { get; private set; }
         public EntityType Type { get; private set; }
         public string TypeTranslation { get; private set; }
         public string DirectoryPath { get; private set; }
@@ -22,9 +23,10 @@ namespace UI.Models
             Path = path;
             Extension = extension;
             IsDirectory = extension == null;
+            IsArchive = extension == ".archivarius";
             DirectoryPath = System.IO.Path.GetDirectoryName(Path);
 
-            if (Extension == ".zip") //у нас же .zip, да?
+            if (IsArchive) 
                 Type = EntityType.Archive;
             else
                 Type = IsDirectory ? EntityType.Directory : EntityType.File;

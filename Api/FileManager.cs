@@ -13,8 +13,16 @@ namespace Archivarius
 
         public void WriteFile(string filePath, byte[] output) => File.WriteAllBytes(filePath, output);
         public void WriteFile(string filePath, Dictionary<string, byte[]> output) {
-
             foreach (var (name, file) in output) File.WriteAllBytes($"{filePath}/{name}", file);
+        }
+
+        public void ChangeFileExtension(string filePath, string targetExtension)
+        {
+            var file = new FileInfo(filePath);
+            var newFileName = file.Name.Replace(file.Extension, targetExtension);
+            var newFilePath = Path.Combine(file.DirectoryName, newFileName);
+
+            File.Move(filePath, newFilePath);
         }
             
     }
