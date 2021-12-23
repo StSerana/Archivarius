@@ -139,6 +139,8 @@ namespace Archivarius
             return tree;
         }
 
+        private static bool IsLeaf(HuffmanNode huffmanNode) => huffmanNode.Left == null && huffmanNode.Right == null;
+        
         public static Tuple<string, byte[]> FindTree(IReadOnlyList<byte> source, IReadOnlyList<byte> delimiter)
         {
             var index = ByteArrayConverter.ByteArrayPatternSearch(delimiter, source);

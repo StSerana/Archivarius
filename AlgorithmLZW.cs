@@ -9,7 +9,7 @@ namespace Archivarius
     {
         public override string Prefix  => "l";
 
-        public override byte[] Compress(string text, string filename)
+        public override byte[] Compress(string text)
         {
             // строим словарь
             var dictionary = new Dictionary<string, int>();
@@ -38,42 +38,12 @@ namespace Archivarius
             if (!string.IsNullOrEmpty(w))
                 compressed.Add(dictionary[w]);
 
-            return Encoding.Default.GetBytes("arch_" + filename + DELIMITER)
-                .Concat(compressed.SelectMany(BitConverter.GetBytes).ToArray()).ToArray();
+           return compressed.SelectMany(BitConverter.GetBytes).ToArray();
         }
 
-        public override Dictionary<string, byte[]> Decompress(byte[] bytes)
+        public override byte[] Decompress(byte[] bytes)
         {
-            var compressedFiles = new Dictionary<string, byte[]>();
-            var decompressedFiles = new Dictionary<string, byte[]>();
-            var index = 0;
-            var source = new List<byte>(bytes);
             
-            while (index != -1)
-            {
-                index = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER, source);
-                var fileName = string.Join("", Encoding.Default.GetString(source.Take(index).ToArray()));
-                source = source.Skip(index + BYTES_DELIMITER.Length).ToList();
-                index = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER,
-                    source);
-                if (index == -1)
-                    compressedFiles.Add(fileName, source.ToArray());
-                else
-                {
-                    var encodedFile = source.Take(index).ToArray();
-                    source = source.Skip(index + BYTES_DELIMITER.Length).ToList();
-                    compressedFiles.Add(fileName, encodedFile);
-                    index = 0;
-                }
-            }
-
-            foreach (var (name, file) in compressedFiles) decompressedFiles.Add("new" + name, DecompressOneFile(file));
-
-            return decompressedFiles;
-        }
-
-        public override byte[] DecompressOneFile(byte[] bytes)
-        {
             var compressed= Enumerable.Range(0, bytes.Length / 4)
                 .Select(i => BitConverter.ToInt32(bytes, i * 4))
                 .ToList();
@@ -106,8 +76,8 @@ namespace Archivarius
 
             // преобразуем строку в байты, записываем массива байтов в файл
             var output = Encoding.Default.GetBytes(decompressed.ToString());
-            
             return output;
         }
+        
     }
 }
