@@ -1,10 +1,13 @@
 using NUnit.Framework;
+using System.Linq;
 
 namespace Archivarius
 {
     [TestFixture]
     public class AlgorithmTest
     {
+        private const string outputFilename = "test-output";
+
         [Test]
         public void AlgorithmHuffman_Compress_NotEmpty()
         {
@@ -23,7 +26,7 @@ namespace Archivarius
         public void AlgorithmHuffman_HaveDelimiter()
         {
             Algorithm algorithm = new AlgorithmHuffman();
-            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress("Sova"));
+            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress("Sova", outputFilename));
             HaveDelimiter(compressed);
         }
         
@@ -31,7 +34,7 @@ namespace Archivarius
         public void AlgorithmHuffman_Decompress_NotEmpty()
         {
             Algorithm algorithm = new AlgorithmHuffman();
-            var compressed = algorithm.Compress("Sova");
+            var compressed = algorithm.Compress("Sova", outputFilename);
             TestAlgorithmDecompress(algorithm, compressed);
         }
         
@@ -39,7 +42,7 @@ namespace Archivarius
         public void AlgorithmLZW_Decompress_NotEmpty()
         {
             Algorithm algorithm = new AlgorithmLZW();
-            var compressed = algorithm.Compress("Sova");
+            var compressed = algorithm.Compress("Sova", outputFilename);
             TestAlgorithmDecompress(algorithm, compressed);
         }
         
@@ -61,8 +64,14 @@ namespace Archivarius
 
         private static void TestAlgorithmDecompressedEqualsInput(Algorithm algorithm, string text)
         {
-            var compressed = algorithm.Compress(text);
-            var decompressed = System.Text.Encoding.UTF8.GetString(algorithm.Decompress(compressed));
+            var compressed = algorithm.Compress(text, outputFilename);
+
+            var decompressedFiles = algorithm.Decompress(compressed);
+
+            Assert.AreEqual(decompressedFiles.ContainsKey(outputFilename), true);
+
+            var decompressed = System.Text.Encoding.UTF8.GetString(decompressedFiles[outputFilename]);
+
             Assert.AreEqual(decompressed, text);
         }
 
@@ -75,7 +84,7 @@ namespace Archivarius
 
         private static void TestAlgorithmCompress(Algorithm algorithm, string text)
         {
-            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress(text));
+            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress(text, outputFilename));
             Assert.IsNotNull(compressed);
             Assert.IsNotEmpty(compressed);
         }
