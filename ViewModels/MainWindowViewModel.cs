@@ -12,6 +12,8 @@ using UI.Models;
 using ReactiveUI;
 using System.Runtime.CompilerServices;
 using Archivarius;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace UI.ViewModels
 {
@@ -104,9 +106,20 @@ namespace UI.ViewModels
             UpdateCurrentDirectoryContent();
         }
 
-        public void OnAddToPress(object? sender, RoutedEventArgs args)
+        public async void OnAddToPress(object? sender, RoutedEventArgs args)
         {
+            var archive = CurrentDirectoryContent[DataGridSelectedRowIndex];
+            var fileDialog = new OpenFileDialog();
+            var textFileFilter = new FileDialogFilter() { Name = "Текстовые файлы", Extensions = new List<string>() { "txt" } };
+            fileDialog.Filters = new List<FileDialogFilter>() { textFileFilter };
+            var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
 
+            var selectedItems = await fileDialog.ShowAsync(mainWindow);
+
+            foreach (var selectedItemPath in selectedItems)
+            {
+                api.AppendFile(archive.DirectoryPath, Path.GetFileName(selectedItemPath), archive.Name);
+            }
         }
 
         public void OnViewPress(object? sender, RoutedEventArgs args)
