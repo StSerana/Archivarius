@@ -1,7 +1,9 @@
+using Archivarius;
 using NUnit.Framework;
 
-namespace Archivarius
+namespace ArchivariusTest
 {
+    
     [TestFixture]
     public class AlgorithmTest
     {
@@ -23,7 +25,7 @@ namespace Archivarius
         public void AlgorithmHuffman_HaveDelimiter()
         {
             Algorithm algorithm = new AlgorithmHuffman();
-            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress("Sova"));
+            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress("Sova", "sova.txt"));
             HaveDelimiter(compressed);
         }
         
@@ -31,7 +33,7 @@ namespace Archivarius
         public void AlgorithmHuffman_Decompress_NotEmpty()
         {
             Algorithm algorithm = new AlgorithmHuffman();
-            var compressed = algorithm.Compress("Sova");
+            var compressed = algorithm.Compress("Sova", "sova.txt");
             TestAlgorithmDecompress(algorithm, compressed);
         }
         
@@ -39,7 +41,7 @@ namespace Archivarius
         public void AlgorithmLZW_Decompress_NotEmpty()
         {
             Algorithm algorithm = new AlgorithmLZW();
-            var compressed = algorithm.Compress("Sova");
+            var compressed = algorithm.Compress("Sova", "sova.txt");
             TestAlgorithmDecompress(algorithm, compressed);
         }
         
@@ -61,8 +63,8 @@ namespace Archivarius
 
         private static void TestAlgorithmDecompressedEqualsInput(Algorithm algorithm, string text)
         {
-            var compressed = algorithm.Compress(text);
-            var decompressed = System.Text.Encoding.UTF8.GetString(algorithm.Decompress(compressed));
+            var compressed = algorithm.Compress(text, "sova.txt");
+            var decompressed = System.Text.Encoding.UTF8.GetString(algorithm.Decompress(compressed)["sova.txt"]);
             Assert.AreEqual(decompressed, text);
         }
 
@@ -75,7 +77,7 @@ namespace Archivarius
 
         private static void TestAlgorithmCompress(Algorithm algorithm, string text)
         {
-            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress(text));
+            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress(text, "sova.text"));
             Assert.IsNotNull(compressed);
             Assert.IsNotEmpty(compressed);
         }
