@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Archivarius.csproj" />
+      <ProjectReference Include="..\Archivarius\Archivarius.csproj" />
     </ItemGroup>
 
 </Project>

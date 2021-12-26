@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Archivarius.Utils.Converters;
 
-namespace Archivarius
+namespace Archivarius.Algorithms.LZW
 {
     public class AlgorithmLZW : Algorithm
     {

@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Archivarius
+namespace Archivarius.Algorithms.Huffman
 {
     public class HuffmanNode
     {

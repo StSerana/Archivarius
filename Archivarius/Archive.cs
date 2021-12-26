@@ -1,12 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using Archivarius.Algorithms;
+using Archivarius.Algorithms.Huffman;
+using Archivarius.Algorithms.LZW;
+using Archivarius.Utils.Managers;
 
 namespace Archivarius
 {
-    public class Archivarius
+    public class Archive
     {
         public AlgorithmType SelectedAlgorithmKey = AlgorithmType.Lzw;
         public Algorithm SelectedAlgorithm => _algorithms[SelectedAlgorithmKey];

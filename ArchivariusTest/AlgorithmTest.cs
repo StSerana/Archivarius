@@ -1,7 +1,9 @@
-using Archivarius;
+using Archivarius.Algorithms;
+using Archivarius.Algorithms.Huffman;
+using Archivarius.Algorithms.LZW;
 using NUnit.Framework;
 
-namespace ArchivariusTest
+namespace Archivarius.ArchivariusTest
 {
     
     [TestFixture]
