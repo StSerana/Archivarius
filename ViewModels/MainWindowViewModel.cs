@@ -17,8 +17,65 @@ namespace UI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        private bool extractButtonIsEnabled;
+        public bool ExtractButtonIsEnabled 
+        {
+            get => extractButtonIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref extractButtonIsEnabled, value);
+        }
+
+        private bool archiveButtonIsEnabled;
+        public bool ArchiveButtonIsEnabled
+        {
+            get => archiveButtonIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref archiveButtonIsEnabled, value);
+        }
+
+        private bool addToButtonIsEnabled;
+        public bool AddToButtonIsEnabled
+        {
+            get => addToButtonIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref addToButtonIsEnabled, value);
+        }
+
+        private bool viewButtonIsEnabled;
+        public bool ViewButtonIsEnabled
+        {
+            get => viewButtonIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref viewButtonIsEnabled, value);
+        }
         public ObservableCollection<ArchivariusEntity> CurrentDirectoryContent { get; }
         public bool IsDirectoryEmpty { get => CurrentDirectoryContent?.Count == 0; }
+        private int dataGridSelectedRowIndex;
+        public int DataGridSelectedRowIndex
+        {
+            get => dataGridSelectedRowIndex;
+            set 
+            {
+                if (value != dataGridSelectedRowIndex)
+                {
+                    if (value == -1)
+                    {
+                        ExtractButtonIsEnabled = false;
+                        AddToButtonIsEnabled = false;
+                        ArchiveButtonIsEnabled = false;
+                        ViewButtonIsEnabled = false;
+                    }
+                    else
+                    {
+                        var selectedItem = CurrentDirectoryContent[value];
+
+                        ExtractButtonIsEnabled = selectedItem.IsArchive;
+                        AddToButtonIsEnabled = selectedItem.IsArchive;
+                        ViewButtonIsEnabled = selectedItem.IsDirectory;
+                        ArchiveButtonIsEnabled = selectedItem.Extension != null && !selectedItem.IsArchive;
+                    }
+
+                    this.RaiseAndSetIfChanged(ref dataGridSelectedRowIndex, value);
+                }
+            }
+        }
+
         private string currentDirectoryPath;
         private Archivarius.Archivarius api = new Archivarius.Archivarius();
         public string CurrentDirectoryPath 
@@ -38,7 +95,35 @@ namespace UI.ViewModels
             UpdateCurrentDirectoryContent();
         }
 
-        
+        public void OnExtractPress(object? sender, RoutedEventArgs args)
+        {
+            var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
+
+            api.Decompress(item.DirectoryPath, item.Name);
+
+            UpdateCurrentDirectoryContent();
+        }
+
+        public void OnAddToPress(object? sender, RoutedEventArgs args)
+        {
+
+        }
+
+        public void OnViewPress(object? sender, RoutedEventArgs args)
+        {
+            var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
+
+            ChangeCurrentDirectory(item.Path);
+        }
+
+        public void OnArchivePress(object? sender, RoutedEventArgs args)
+        {
+            var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
+
+            api.Compress(item.DirectoryPath, item.Name);
+
+            UpdateCurrentDirectoryContent();
+        }
 
         private void UpdateCurrentDirectoryContent()
         {
@@ -48,31 +133,7 @@ namespace UI.ViewModels
             {
                 CurrentDirectoryContent.Add(item);
             });
-        }
-
-        public void OnCurrentDirectoryGridTap(object? sender, RoutedEventArgs args)
-        {
-            var dataGrid = (DataGrid)sender;
-            var index = dataGrid.SelectedIndex; // tap index
-
-            var item = CurrentDirectoryContent[index];      
-            
-            Debug.WriteLine(item.Name);
-
-            if (item.IsDirectory)
-                ChangeCurrentDirectory(item.Path);
-            else if (item.IsArchive) { //change to smtg more reliable
-                api.Decompress(item.DirectoryPath, item.Name);
-
-                UpdateCurrentDirectoryContent();
-            }
-            else
-            {
-                api.Compress(item.DirectoryPath, item.Name);
-
-                UpdateCurrentDirectoryContent();
-            }
-        }
+        }        
 
         private void ChangeCurrentDirectory(string newPath)
         {            

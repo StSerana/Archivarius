@@ -19,11 +19,31 @@ namespace UI.Views
 #endif
 
             //колхоз для того чтобы передать событие во вьюмодель. по логике вещей, должно делаться в разметке, но не делается.
-            this.FindControl<DataGrid>("CurrentDirectoryContentGrid").Tapped += (s, a) =>
+            this.FindControl<DataGrid>("CurrentDirectoryContentGrid").PointerMoved += (s, a) =>
             {
-                (DataContext as MainWindowViewModel).OnCurrentDirectoryGridTap(s, a);
+                
             };
-            
+
+            this.FindControl<Button>("ExtractButton").Tapped += (s, a) =>
+            {
+                (DataContext as MainWindowViewModel).OnExtractPress(s, a);
+            };
+
+            this.FindControl<Button>("ArchiveButton").Tapped += (s, a) =>
+            {
+                (DataContext as MainWindowViewModel).OnArchivePress(s, a);
+            };
+
+            this.FindControl<Button>("AddToButton").Tapped += (s, a) =>
+            {
+                (DataContext as MainWindowViewModel).OnAddToPress(s, a);
+            };
+
+            this.FindControl<Button>("ViewButton").Tapped += (s, a) =>
+            {
+                (DataContext as MainWindowViewModel).OnViewPress(s, a);
+            };
+
             this.FindControl<Button>("GoUpButton").Tapped += (s, a) =>
             {
                 (DataContext as MainWindowViewModel).OnGoUpButtonTap(s, a);

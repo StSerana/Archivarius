@@ -15,7 +15,7 @@
 
 	<Window.Styles>
 		<StyleInclude Source="/Views/Styles/MainWindowStyles.axaml"/>
-		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml"/>
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 	</Window.Styles>
 
 	<Border Classes="Wrapper">
@@ -53,15 +53,15 @@
 						<ColumnDefinition Width="0.22*"/>
 					</Grid.ColumnDefinitions>
 
-					<Button Grid.Column="0" Classes="CustomButton">Extract</Button>
-					<Button Grid.Column="2" Classes="CustomButton">Archive</Button>
-					<Button Grid.Column="4" Classes="CustomButton">Add to</Button>
-					<Button Grid.Column="6" Classes="CustomButton">View</Button>
+					<Button Name="ExtractButton" IsEnabled="{Binding ExtractButtonIsEnabled}" Grid.Column="0" Classes="CustomButton">Extract</Button>
+					<Button Name="ArchiveButton" IsEnabled="{Binding ArchiveButtonIsEnabled}" Grid.Column="2" Classes="CustomButton">Archive</Button>
+					<Button Name="AddToButton" IsEnabled="{Binding AddToButtonIsEnabled}" Grid.Column="4" Classes="CustomButton">Add to</Button>
+					<Button Name="ViewButton" IsEnabled="{Binding ViewButtonIsEnabled}" Grid.Column="6" Classes="CustomButton">View</Button>
 				</Grid>
 			</Grid>
 
 			<DataGrid ScrollViewer.VerticalScrollBarVisibility="Visible" Height="400" Classes="DirectoryContentDataGrid" 
-					  CanUserReorderColumns="False"
+					  CanUserReorderColumns="False" SelectedIndex="{Binding DataGridSelectedRowIndex}"
 					  Name="CurrentDirectoryContentGrid"
 					  CanUserResizeColumns="False" CanUserSortColumns="False" 
 					  Items="{Binding CurrentDirectoryContent}">
