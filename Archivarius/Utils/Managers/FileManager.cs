@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
-namespace Archivarius
+namespace Archivarius.Utils.Managers
 {
     public class FileManager
     {

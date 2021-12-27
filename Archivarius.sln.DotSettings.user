@@ -1,0 +1,21 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4623b930_002D8152_002D4e68_002Dba6a_002Df680e74d22e1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::Archivarius.ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=72914996_002Dbe48_002D4863_002D9636_002Deab389860124/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::50719F9F-2083-4CDF-B84E-4962F8B1184F::net5.0::Archivarius.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7b905196_002Dbb13_002D4e42_002D88f6_002D4f73dc0b16e1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AlgorithmTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::Archivarius.ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f65b79ff_002D9905_002D41f4_002Db37a_002D23ecb79bb86e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

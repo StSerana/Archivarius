@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Archivarius.Utils.Converters;
 
-namespace Archivarius
+namespace Archivarius.Algorithms.Huffman
 {
     public class AlgorithmHuffman : Algorithm
     {

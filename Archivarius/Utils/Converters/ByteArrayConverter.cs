@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Archivarius
+namespace Archivarius.Utils.Converters
 {
     public class ByteArrayConverter
     {

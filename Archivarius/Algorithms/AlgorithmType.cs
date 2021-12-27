@@ -1,4 +1,4 @@
-namespace Archivarius
+namespace Archivarius.Algorithms
 {
     public enum AlgorithmType
     {
