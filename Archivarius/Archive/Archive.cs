@@ -17,9 +17,10 @@ namespace Archivarius
             _algorithmHuffman = algorithmHuffman;
         }
         
-        public AlgorithmType SelectedAlgorithmKey = AlgorithmType.Lzw;
+        // public AlgorithmType SelectedAlgorithmKey = AlgorithmType.Lzw;
         public Algorithm SelectedAlgorithm => _algorithms[SelectedAlgorithmKey];
-        
+        public AlgorithmType SelectedAlgorithmKey { get; set; }
+
         private readonly IFileManager _fileManager;
         private static AbstractAlgorithmLZW _algorithmLzw;
         private static AbstarctAlgorithmHuffman _algorithmHuffman;

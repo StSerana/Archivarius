@@ -14,7 +14,7 @@
     &lt;TestId&gt;NUnit3x::50719F9F-2083-4CDF-B84E-4962F8B1184F::net5.0::Archivarius.AlgorithmTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7b905196_002Dbb13_002D4e42_002D88f6_002D4f73dc0b16e1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AlgorithmTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7b905196_002Dbb13_002D4e42_002D88f6_002D4f73dc0b16e1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::Archivarius.ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
