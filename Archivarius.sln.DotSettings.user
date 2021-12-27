@@ -1,4 +1,9 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=17b177ad_002D063b_002D4afd_002Dbbba_002Dfbca12b580c8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::Archivarius.ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4623b930_002D8152_002D4e68_002Dba6a_002Df680e74d22e1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::Archivarius.ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
@@ -14,8 +19,28 @@
     &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::Archivarius.ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bf606c12_002D075f_002D4d3c_002D9071_002D7b5543bee8eb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d1bfaf1e_002D92cb_002D464d_002Db5e8_002D706e98a73b27/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f4578b9e_002D04ca_002D49e8_002Da14d_002Dc2deb75870f8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f65b79ff_002D9905_002D41f4_002Db37a_002D23ecb79bb86e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AlgorithmTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ffdf3405_002Da5ec_002D4a70_002D8a47_002De42976178b6f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AlgorithmTest #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::39BABEE0-1DAE-4992-A57E-A03D12AB1C6D::net5.0::Archivarius.ArchivariusTest.AlgorithmTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

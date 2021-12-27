@@ -66,7 +66,8 @@ namespace Archivarius.ArchivariusTest
         private static void TestAlgorithmDecompressedEqualsInput(Algorithm algorithm, string text)
         {
             var compressed = algorithm.Compress(text, "sova.txt");
-            var decompressed = System.Text.Encoding.UTF8.GetString(algorithm.Decompress(compressed)["sova.txt"]);
+            var decompressedBytes = algorithm.Decompress(compressed);
+            var decompressed = System.Text.Encoding.UTF8.GetString(decompressedBytes["newarch_sova.txt"]);
             Assert.AreEqual(decompressed, text);
         }
 
