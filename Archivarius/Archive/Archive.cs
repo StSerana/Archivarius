@@ -17,20 +17,23 @@ namespace Archivarius
             _algorithmHuffman = algorithmHuffman;
         }
         
-        // public AlgorithmType SelectedAlgorithmKey = AlgorithmType.Lzw;
-        public Algorithm SelectedAlgorithm => _algorithms[SelectedAlgorithmKey];
+        public Algorithm SelectedAlgorithm => getAlgorithmByType(SelectedAlgorithmKey);
         public AlgorithmType SelectedAlgorithmKey { get; set; }
 
         private readonly IFileManager _fileManager;
         private static AbstractAlgorithmLZW _algorithmLzw;
         private static AbstarctAlgorithmHuffman _algorithmHuffman;
 
-        private Dictionary<AlgorithmType, Algorithm> _algorithms = new()
-       {
-           {AlgorithmType.Lzw, _algorithmLzw },
-           {AlgorithmType.Huffman, _algorithmHuffman }
-       };
-
+        private Algorithm getAlgorithmByType(AlgorithmType type)
+        {
+            return type switch
+            {
+                AlgorithmType.Huffman => _algorithmHuffman,
+                AlgorithmType.Lzw => _algorithmLzw,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
+        }
+        
         public void Compress(string filePath, string filename)
         {
             var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile($"{filePath}/{filename}"));
