@@ -8,18 +8,25 @@ using Archivarius.Utils.Managers;
 
 namespace Archivarius
 {
-    public class Archive
+    public class Archive : IArchive
     {
+        public Archive(IFileManager fileManager, AbstractAlgorithmLZW algorithmLzw, AbstarctAlgorithmHuffman algorithmHuffman)
+        {
+            _fileManager = fileManager;
+            _algorithmLzw = algorithmLzw;
+            _algorithmHuffman = algorithmHuffman;
+        }
+        
         public AlgorithmType SelectedAlgorithmKey = AlgorithmType.Lzw;
         public Algorithm SelectedAlgorithm => _algorithms[SelectedAlgorithmKey];
         
-        private FileManager _fileManager = new FileManager();
-        private static Algorithm _algorithmLZW = new AlgorithmLZW();
-        private static Algorithm _algorithmHuffman = new AlgorithmHuffman();
+        private readonly IFileManager _fileManager;
+        private static AbstractAlgorithmLZW _algorithmLzw;
+        private static AbstarctAlgorithmHuffman _algorithmHuffman;
 
         private Dictionary<AlgorithmType, Algorithm> _algorithms = new()
        {
-           {AlgorithmType.Lzw, _algorithmLZW },
+           {AlgorithmType.Lzw, _algorithmLzw },
            {AlgorithmType.Huffman, _algorithmHuffman }
        };
 

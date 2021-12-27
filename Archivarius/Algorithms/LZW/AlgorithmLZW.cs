@@ -6,10 +6,8 @@ using Archivarius.Utils.Converters;
 
 namespace Archivarius.Algorithms.LZW
 {
-    public class AlgorithmLZW : Algorithm
+    public class AlgorithmLZW : AbstractAlgorithmLZW
     {
-        public override string Prefix  => "l";
-
         public override byte[] Compress(string text, string filename)
         {
             // строим словарь

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Archivarius.Utils.Managers
 {
-    public class FileManager
+    public class FileManager : IFileManager
     {
         public byte[] ReadFile(string filePath) => File.ReadAllBytes(filePath);
 
