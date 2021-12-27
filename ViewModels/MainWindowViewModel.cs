@@ -116,6 +116,9 @@ namespace UI.ViewModels
 
             var selectedItems = await fileDialog.ShowAsync(mainWindow);
 
+            if (selectedItems == null)
+                return;
+
             foreach (var selectedItemPath in selectedItems)
             {
                 api.AppendFile(archive.DirectoryPath, Path.GetFileName(selectedItemPath), archive.Name);
