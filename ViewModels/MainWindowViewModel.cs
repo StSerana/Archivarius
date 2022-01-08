@@ -14,6 +14,10 @@ using System.Runtime.CompilerServices;
 using Archivarius;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Archivarius.Utils.Managers;
+using Archivarius.Algorithms;
+using Archivarius.Algorithms.Huffman;
+using Archivarius.Algorithms.LZW;
 
 namespace UI.ViewModels
 {
@@ -79,7 +83,7 @@ namespace UI.ViewModels
         }
 
         private string currentDirectoryPath;
-        private Archivarius.Archivarius api = new Archivarius.Archivarius();
+        private Archive api = new Archive(new FileManager(), new AlgorithmLZW(), new AlgorithmHuffman());
         public string CurrentDirectoryPath 
         { 
             get => currentDirectoryPath;

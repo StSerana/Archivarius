@@ -1,14 +1,14 @@
-
+using Archivarius.Algorithms;
+using Archivarius.Algorithms.Huffman;
+using Archivarius.Algorithms.LZW;
 using NUnit.Framework;
-using System.Linq;
 
-namespace Archivarius
+namespace Archivarius.ArchivariusTest
 {
+    
     [TestFixture]
     public class AlgorithmTest
     {
-        private const string outputFilename = "test-output";
-
         [Test]
         public void AlgorithmHuffman_Compress_NotEmpty()
         {
@@ -27,7 +27,7 @@ namespace Archivarius
         public void AlgorithmHuffman_HaveDelimiter()
         {
             Algorithm algorithm = new AlgorithmHuffman();
-            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress("Sova", outputFilename));
+            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress("Sova", "sova.txt"));
             HaveDelimiter(compressed);
         }
         
@@ -35,7 +35,7 @@ namespace Archivarius
         public void AlgorithmHuffman_Decompress_NotEmpty()
         {
             Algorithm algorithm = new AlgorithmHuffman();
-            var compressed = algorithm.Compress("Sova", outputFilename);
+            var compressed = algorithm.Compress("Sova", "sova.txt");
             TestAlgorithmDecompress(algorithm, compressed);
         }
         
@@ -43,7 +43,7 @@ namespace Archivarius
         public void AlgorithmLZW_Decompress_NotEmpty()
         {
             Algorithm algorithm = new AlgorithmLZW();
-            var compressed = algorithm.Compress("Sova", outputFilename);
+            var compressed = algorithm.Compress("Sova", "sova.txt");
             TestAlgorithmDecompress(algorithm, compressed);
         }
         
@@ -65,14 +65,9 @@ namespace Archivarius
 
         private static void TestAlgorithmDecompressedEqualsInput(Algorithm algorithm, string text)
         {
-            var compressed = algorithm.Compress(text, outputFilename);
-
-            var decompressedFiles = algorithm.Decompress(compressed);
-
-            Assert.AreEqual(decompressedFiles.ContainsKey(outputFilename), true);
-
-            var decompressed = System.Text.Encoding.UTF8.GetString(decompressedFiles[outputFilename]);
-
+            var compressed = algorithm.Compress(text, "sova.txt");
+            var decompressedBytes = algorithm.Decompress(compressed);
+            var decompressed = System.Text.Encoding.UTF8.GetString(decompressedBytes["newarch_sova.txt"]);
             Assert.AreEqual(decompressed, text);
         }
 
@@ -85,7 +80,7 @@ namespace Archivarius
 
         private static void TestAlgorithmCompress(Algorithm algorithm, string text)
         {
-            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress(text, outputFilename));
+            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress(text, "sova.text"));
             Assert.IsNotNull(compressed);
             Assert.IsNotEmpty(compressed);
         }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Archivarius
+namespace Archivarius.Algorithms
 {
     public abstract class Algorithm
     {

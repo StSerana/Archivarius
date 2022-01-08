@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Archivarius.Utils.Converters;
 
-namespace Archivarius
+namespace Archivarius.Algorithms.LZW
 {
-    public class AlgorithmLZW : Algorithm
+    public class AlgorithmLZW : AbstractAlgorithmLZW
     {
-        public override string Prefix  => "l";
-
         public override byte[] Compress(string text, string filename)
         {
             // строим словарь
