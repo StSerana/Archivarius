@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using UI.Models;
+using Archivarius;
+using Archivarius.Algorithms.Huffman;
+using Archivarius.Algorithms.LZW;
+using Archivarius.Utils.Managers;
+using WindowMode.Models;
 using ReactiveUI;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 
-namespace UI.ViewModels
+namespace WindowMode.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
@@ -73,7 +77,7 @@ namespace UI.ViewModels
         }
 
         private string currentDirectoryPath;
-        private Archive api = new Archive(new FileManager(), new AlgorithmLZW(), new AlgorithmHuffman());
+        private Archive api = new(new FileManager(), new AlgorithmLZW(), new AlgorithmHuffman());
         public string CurrentDirectoryPath 
         { 
             get => currentDirectoryPath;

@@ -1,4 +1,4 @@
-﻿namespace UI.Models
+﻿namespace WindowMode.Models
 {
     public class ArchivariusEntity
     {

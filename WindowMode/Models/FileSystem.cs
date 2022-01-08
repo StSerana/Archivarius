@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace UI.Models
+namespace WindowMode.Models
 {
     public class FileSystem
     {

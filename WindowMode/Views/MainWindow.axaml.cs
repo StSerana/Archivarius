@@ -1,8 +1,9 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using UI.ViewModels;
+using WindowMode.ViewModels;
 
-namespace UI.Views
+namespace WindowMode.Views
 {
     public partial class MainWindow : Window
     {
