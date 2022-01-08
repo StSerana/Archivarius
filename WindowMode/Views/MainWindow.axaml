@@ -1,0 +1,75 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:UI.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="UI.Views.MainWindow"
+		xmlns:local="clr-namespace:UI.Views"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Archivarius">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Window.Styles>
+		<StyleInclude Source="/Views/Styles/MainWindowStyles.axaml"/>
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+	</Window.Styles>
+
+	<Border Classes="Wrapper">
+		<StackPanel>
+			<Grid Classes="CurrentPathContainer">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.85*"/>
+					<ColumnDefinition Width="0.15*"/>
+				</Grid.ColumnDefinitions>
+
+				<TextBox Grid.Column="0" Watermark="File or directory path" Text="{Binding CurrentDirectoryPath, Mode=TwoWay}"/>
+				
+				<Border Grid.Column="1" Classes="DirectoryUpButtonContainer">
+					<!--add icon-->
+					<Button Classes="CustomButton" Name="GoUpButton">Up</Button>
+				</Border>
+			</Grid>
+			<Grid Name="ControlsContainer" Classes="MainControlsContainer">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="70" />
+				</Grid.RowDefinitions>
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<Grid Grid.Column="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="0.22*"/>
+						<ColumnDefinition Width="0.04*"/>
+						<ColumnDefinition Width="0.22*"/>
+						<ColumnDefinition Width="0.04*"/>
+						<ColumnDefinition Width="0.22*"/>
+						<ColumnDefinition Width="0.04*"/>
+						<ColumnDefinition Width="0.22*"/>
+					</Grid.ColumnDefinitions>
+
+					<Button Name="ExtractButton" IsEnabled="{Binding ExtractButtonIsEnabled}" Grid.Column="0" Classes="CustomButton">Extract</Button>
+					<Button Name="ArchiveButton" IsEnabled="{Binding ArchiveButtonIsEnabled}" Grid.Column="2" Classes="CustomButton">Archive</Button>
+					<Button Name="AddToButton" IsEnabled="{Binding AddToButtonIsEnabled}" Grid.Column="4" Classes="CustomButton">Add to</Button>
+					<Button Name="ViewButton" IsEnabled="{Binding ViewButtonIsEnabled}" Grid.Column="6" Classes="CustomButton">View</Button>
+				</Grid>
+			</Grid>
+
+			<DataGrid ScrollViewer.VerticalScrollBarVisibility="Visible" Height="400" Classes="DirectoryContentDataGrid" 
+					  CanUserReorderColumns="False" SelectedIndex="{Binding DataGridSelectedRowIndex}"
+					  Name="CurrentDirectoryContentGrid"
+					  CanUserResizeColumns="False" CanUserSortColumns="False" 
+					  Items="{Binding CurrentDirectoryContent}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Type" Binding="{Binding TypeTranslation}" MinWidth="300" IsReadOnly="True"/>
+					<DataGridTextColumn Header="Name" Binding="{Binding Name}" MinWidth="400" IsReadOnly="True" />					
+				</DataGrid.Columns>				
+			</DataGrid>			
+		</StackPanel>
+	</Border>
+</Window>
