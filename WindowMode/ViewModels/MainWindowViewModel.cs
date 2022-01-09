@@ -141,7 +141,7 @@ namespace WindowMode.ViewModels
             var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
 
             // TODO: use chosen algorithm
-            archivator.Compress(new FileInfo(item.DirectoryPath), AlgorithmType.Huffman);
+            archivator.Compress(new FileInfo(item.Path), AlgorithmType.Huffman);
 
             UpdateCurrentDirectoryContent();
         }
