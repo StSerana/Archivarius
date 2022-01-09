@@ -1,13 +1,17 @@
+using Archivarius;
+using Archivarius.Utils;
+using Archivarius.Utils.Managers;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Ninject;
 using WindowMode.ViewModels;
 
 namespace WindowMode.Views
 {
-    public partial class MainWindow : Window
+    public class MainWindow : Window
     {
-        private ViewModels.MainWindowViewModel viewModel = new ViewModels.MainWindowViewModel();
+        private MainWindowViewModel viewModel = new();
 
         public MainWindow()
         {
@@ -16,7 +20,6 @@ namespace WindowMode.Views
             this.AttachDevTools();
 #endif
 
-            //������ ��� ���� ����� �������� ������� �� ���������. �� ������ �����, ������ �������� � ��������, �� �� ��������.
             this.FindControl<DataGrid>("CurrentDirectoryContentGrid").PointerMoved += (s, a) =>
             {
                 

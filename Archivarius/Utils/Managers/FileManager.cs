@@ -10,8 +10,8 @@ namespace Archivarius.Utils.Managers
         public void DeleteFile(string filepath) => File.Delete(filepath);
 
         public void WriteFile(string filePath, byte[] output) => File.WriteAllBytes(filePath, output);
-        public void WriteFile(string filePath, Dictionary<string, byte[]> output) {
-
+        public void WriteFile(string filePath, Dictionary<string, byte[]> output) 
+        {
             foreach (var (name, file) in output) File.WriteAllBytes($"{filePath}/{name}", file);
         }
             

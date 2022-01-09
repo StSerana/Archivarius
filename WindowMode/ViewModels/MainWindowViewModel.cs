@@ -5,13 +5,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using Archivarius;
-using Archivarius.Algorithms.Huffman;
-using Archivarius.Algorithms.LZW;
+using Archivarius.Algorithms;
 using Archivarius.Utils.Managers;
 using WindowMode.Models;
 using ReactiveUI;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Ninject;
 
 namespace WindowMode.ViewModels
 {
@@ -77,7 +77,7 @@ namespace WindowMode.ViewModels
         }
 
         private string currentDirectoryPath;
-        private Archive api = new(new FileManager(), new AlgorithmLZW(), new AlgorithmHuffman());
+        private Archivator archivator;
         public string CurrentDirectoryPath 
         { 
             get => currentDirectoryPath;
@@ -90,18 +90,22 @@ namespace WindowMode.ViewModels
         private Settings settings = FileSystem.GetSettings();
 
         public MainWindowViewModel()
-        {
+        {           
             CurrentDirectoryContent = new ObservableCollection<ArchivariusEntity>();
             CurrentDirectoryPath = settings.DirectoryPath; 
             
-            UpdateCurrentDirectoryContent();            
+            UpdateCurrentDirectoryContent();
+            
+            var container= ContainerManager.CreateStandardContainer();
+            archivator = container.Get<Archivator>();
+            
         }
 
         public void OnExtractPress(object? sender, RoutedEventArgs args)
         {
             var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
 
-            api.Decompress(item.DirectoryPath, item.Name);
+            archivator.Decompress(new FileInfo(item.DirectoryPath));
 
             UpdateCurrentDirectoryContent();
         }
@@ -121,7 +125,7 @@ namespace WindowMode.ViewModels
 
             foreach (var selectedItemPath in selectedItems)
             {
-                api.AppendFile(archive.DirectoryPath, Path.GetFileName(selectedItemPath), archive.Name);
+                archivator.AppendFile(new FileInfo(selectedItemPath), new FileInfo(archive.Path));
             }
         }
 
@@ -136,7 +140,8 @@ namespace WindowMode.ViewModels
         {
             var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
 
-            api.Compress(item.DirectoryPath, item.Name);
+            // TODO: use chosen algorithm
+            archivator.Compress(new FileInfo(item.DirectoryPath), AlgorithmType.Huffman);
 
             UpdateCurrentDirectoryContent();
         }
