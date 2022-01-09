@@ -9,7 +9,7 @@ namespace WindowMode.Models
     {
         public readonly static List<string> SupportedFileExtenstions = new List<string>() 
         {
-            ".txt", ".jpg", ".archivarius" //add jpeg/png?
+            ".txt", ".jpg", ".huf", ".lzw" //add jpeg/png?
         };
 
         private const string settingsFileName = "settings.json";

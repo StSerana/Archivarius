@@ -28,8 +28,9 @@
 				<TextBox Name="CurrentDirectoryPathTextbox" Grid.Column="0" Watermark="File or directory path" Text="{Binding CurrentDirectoryPath, Mode=TwoWay}"/>
 				
 				<Border Grid.Column="1" Classes="DirectoryUpButtonContainer">
-					<!--add icon-->
 					<Button Classes="CustomButton" Name="GoUpButton">Up</Button>
+					<!--add icon-->
+					
 				</Border>
 			</Grid>
 			<Grid Name="ControlsContainer" Classes="MainControlsContainer">
@@ -38,7 +39,8 @@
 				</Grid.RowDefinitions>
 
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="0.85*" />
+					<ColumnDefinition Width="0.15*" />
 				</Grid.ColumnDefinitions>
 
 				<Grid Grid.Column="0">
@@ -57,6 +59,13 @@
 					<Button Name="AddToButton" IsEnabled="{Binding AddToButtonIsEnabled}" Grid.Column="4" Classes="CustomButton">Add to</Button>
 					<Button Name="ViewButton" IsEnabled="{Binding ViewButtonIsEnabled}" Grid.Column="6" Classes="CustomButton">View</Button>
 				</Grid>
+
+				<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical" Grid.Column="1">
+					<TextBlock>Алгоритм</TextBlock>
+					<DropDown Width="70" SelectedItem="{Binding SelectedAlgorithmType}" Items="{Binding AvailableAlgorithmTypes}">
+						
+					</DropDown>
+				</StackPanel>
 			</Grid>
 
 			<DataGrid ScrollViewer.VerticalScrollBarVisibility="Visible" Height="400" Classes="DirectoryContentDataGrid" 

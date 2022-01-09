@@ -44,7 +44,9 @@ namespace WindowMode.ViewModels
             get => viewButtonIsEnabled;
             set => this.RaiseAndSetIfChanged(ref viewButtonIsEnabled, value);
         }
-        public ObservableCollection<ArchivariusEntity> CurrentDirectoryContent { get; }
+        public AlgorithmType SelectedAlgorithmType { get; set; }
+        public ObservableCollection<AlgorithmType> AvailableAlgorithmTypes { get; }
+        public ObservableCollection<ArchivariusEntity> CurrentDirectoryContent { get; }        
         public bool IsDirectoryEmpty { get => CurrentDirectoryContent?.Count == 0; }
         private int dataGridSelectedRowIndex;
         public int DataGridSelectedRowIndex
@@ -90,10 +92,13 @@ namespace WindowMode.ViewModels
         private Settings settings = FileSystem.GetSettings();
 
         public MainWindowViewModel()
-        {           
+        {            
+            AvailableAlgorithmTypes = new ObservableCollection<AlgorithmType>() { AlgorithmType.Huffman, AlgorithmType.Lzw };
             CurrentDirectoryContent = new ObservableCollection<ArchivariusEntity>();
-            CurrentDirectoryPath = settings.DirectoryPath; 
-            
+            CurrentDirectoryPath = settings.DirectoryPath;
+            SelectedAlgorithmType = AlgorithmType.Huffman;
+
+
             UpdateCurrentDirectoryContent();
             
             var container= ContainerManager.CreateStandardContainer();
@@ -105,7 +110,7 @@ namespace WindowMode.ViewModels
         {
             var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
 
-            archivator.Decompress(new FileInfo(item.DirectoryPath));
+            archivator.Decompress(new FileInfo(item.Path));
 
             UpdateCurrentDirectoryContent();
         }
@@ -114,7 +119,7 @@ namespace WindowMode.ViewModels
         {
             var archive = CurrentDirectoryContent[DataGridSelectedRowIndex];
             var fileDialog = new OpenFileDialog();
-            var textFileFilter = new FileDialogFilter() { Name = "��������� �����", Extensions = new List<string>() { "txt" } };
+            var textFileFilter = new FileDialogFilter() { Name = "Выберите файл", Extensions = new List<string>() { "txt" } };
             fileDialog.Filters = new List<FileDialogFilter>() { textFileFilter };
             var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
 
@@ -140,8 +145,7 @@ namespace WindowMode.ViewModels
         {
             var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
 
-            // TODO: use chosen algorithm
-            archivator.Compress(new FileInfo(item.Path), AlgorithmType.Huffman);
+            archivator.Compress(new FileInfo(item.Path), SelectedAlgorithmType);
 
             UpdateCurrentDirectoryContent();
         }

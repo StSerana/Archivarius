@@ -28,6 +28,7 @@
 
 	<Style Selector="Grid.MainControlsContainer">
 		<Setter Property="Background" Value="#F3F3F3"></Setter>
+		<Setter Property="Margin" Value="0 20 0 0"></Setter>
 	</Style>
 
 	<Style Selector="Button.CustomButton">
