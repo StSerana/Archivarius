@@ -87,10 +87,12 @@ namespace WindowMode.ViewModels
             } 
         }
 
+        private Settings settings = FileSystem.GetSettings();
+
         public MainWindowViewModel()
         {           
             CurrentDirectoryContent = new ObservableCollection<ArchivariusEntity>();
-            CurrentDirectoryPath = Directory.GetCurrentDirectory();
+            CurrentDirectoryPath = settings.DirectoryPath; 
             
             UpdateCurrentDirectoryContent();
             
@@ -139,7 +141,7 @@ namespace WindowMode.ViewModels
             var item = CurrentDirectoryContent[DataGridSelectedRowIndex];
 
             // TODO: use chosen algorithm
-            archivator.Compress(new FileInfo(item.DirectoryPath), AlgorithmType.Huffman);
+            archivator.Compress(new FileInfo(item.Path), AlgorithmType.Huffman);
 
             UpdateCurrentDirectoryContent();
         }
@@ -159,13 +161,21 @@ namespace WindowMode.ViewModels
             if (FileSystem.CheckIfDirectoryExists(newPath))
             {
                 CurrentDirectoryPath = newPath;
+                settings.DirectoryPath = newPath;
+                FileSystem.SaveSettings(settings);
+                
                 UpdateCurrentDirectoryContent();
                 this.RaisePropertyChanged("CurrentDirectoryPath");
                 this.RaisePropertyChanged("IsDirectoryEmpty");
             }
             else
             {
-                //add handle (show err msg?)
+                //need to add alert, for now just replace not existing path with the previous one
+                CurrentDirectoryPath = settings.DirectoryPath;
+
+                UpdateCurrentDirectoryContent();
+                this.RaisePropertyChanged("CurrentDirectoryPath");
+                this.RaisePropertyChanged("IsDirectoryEmpty");
             }
         }
 
@@ -174,6 +184,12 @@ namespace WindowMode.ViewModels
             ChangeCurrentDirectory(Path.GetFullPath(Path.Combine(CurrentDirectoryPath, @"../")));
         }
 
-        public string Greeting => "Welcome to Avalonia!";
+        public void OnCurrentDirectoryPathTextboxKeyDown(object? sender, Avalonia.Input.KeyEventArgs args)
+        {
+            var key = args.Key;
+
+            if (key == Avalonia.Input.Key.Enter)
+                ChangeCurrentDirectory(CurrentDirectoryPath);
+        }
     }
 }
