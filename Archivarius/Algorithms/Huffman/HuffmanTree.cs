@@ -20,7 +20,6 @@ namespace Archivarius.Algorithms.Huffman
             var i = 1;
             foreach (var t in source)
             {
-                //Console.WriteLine("append new node " + i + " of " + source.Length);
                 if (!Frequencies.ContainsKey(t))
                 {
                     Frequencies.Add(t, 0);
@@ -34,17 +33,13 @@ namespace Archivarius.Algorithms.Huffman
             {
                 nodes.Add(new HuffmanNode {Symbol = key, Frequency = value});
             }
-            //Console.WriteLine("get all symbols");
             CreateTree(nodes);
         }
 
         private void CreateTree(ICollection<HuffmanNode> huffmanNodes)
         {
-            var i = 1;
-            Console.WriteLine("create tree");
             while (huffmanNodes.Count > 1)
             {
-                //Console.WriteLine("append new node " + i + " of " + huffmanNodes.Count);
                 var orderedNodes = huffmanNodes
                     .OrderBy(node => node.Frequency)
                     .ThenBy(node => node.Symbol)
@@ -90,14 +85,12 @@ namespace Archivarius.Algorithms.Huffman
 
         public string Decode(BitArray bits)
         {
-            var current = Root;
             var decoded = "";
             var treeDictionary = new Dictionary<string, char>();
             HuffmanNode.ReverseTraverse(Root, "", treeDictionary);
 
             for (var i = 0; i < bits.Count; i++)
             {
-                //Console.WriteLine("find key for " + i);
                 var key = "";
                 for (var j = i; j < bits.Count; j++)
                 {
@@ -114,7 +107,6 @@ namespace Archivarius.Algorithms.Huffman
         
         public static StringBuilder TreeToString(HuffmanNode node, StringBuilder result)
         {
-            //Console.WriteLine("tree to string");
             if (node == null)
                 return result;
 
@@ -130,7 +122,6 @@ namespace Archivarius.Algorithms.Huffman
         {
             var tree = new HuffmanTree();
             var matches = TREE_NODE_PATTERN.Matches(source);
-            Console.WriteLine(source);
             var huffmanNodes = new List<HuffmanNode>();
             
             foreach (Match match in matches)
@@ -144,7 +135,7 @@ namespace Archivarius.Algorithms.Huffman
         {
             var index = ByteArrayConverter.ByteArrayPatternSearch(delimiter, source);
 
-            var tree = string.Join("", Encoding.Default.GetString(source.Take(index).ToArray()));
+            var tree = string.Join("", Encoding.UTF8.GetString(source.Take(index).ToArray()));
             var encoded = source.Skip(index + delimiter.Count).ToArray();
             
             return Tuple.Create(tree, encoded);

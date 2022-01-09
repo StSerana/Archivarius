@@ -1,4 +1,6 @@
-﻿namespace WindowMode.Models
+﻿using System.Collections.Generic;
+
+namespace WindowMode.Models
 {
     public class ArchivariusEntity
     {
@@ -17,7 +19,7 @@
             Path = path;
             Extension = extension;
             IsDirectory = extension == null;
-            IsArchive = extension == ".archivarius";
+            IsArchive = new List<string>{".huf", ".lzw"}.Contains(extension);
             DirectoryPath = System.IO.Path.GetDirectoryName(Path);
 
             if (IsArchive) 

@@ -6,8 +6,10 @@ using Archivarius.Utils.Converters;
 
 namespace Archivarius.Algorithms.LZW
 {
-    public class AlgorithmLZW : AbstractAlgorithmLZW
+    public class AlgorithmLZW : Algorithm
     {
+        public override string Extension => ".lzw";
+        public override AlgorithmType? Type  => AlgorithmType.Lzw;
         public override byte[] Compress(string text, string filename)
         {
             // строим словарь
@@ -37,7 +39,7 @@ namespace Archivarius.Algorithms.LZW
             if (!string.IsNullOrEmpty(w))
                 compressed.Add(dictionary[w]);
 
-            return Encoding.Default.GetBytes("arch_" + filename + DELIMITER)
+            return Encoding.UTF8.GetBytes("arch_" + filename + DELIMITER)
                 .Concat(compressed.SelectMany(BitConverter.GetBytes).ToArray()).ToArray();
         }
 
@@ -51,7 +53,7 @@ namespace Archivarius.Algorithms.LZW
             while (index != -1)
             {
                 index = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER, source);
-                var fileName = string.Join("", Encoding.Default.GetString(source.Take(index).ToArray()));
+                var fileName = string.Join("", Encoding.UTF8.GetString(source.Take(index).ToArray()));
                 source = source.Skip(index + BYTES_DELIMITER.Length).ToList();
                 index = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER,
                     source);
@@ -104,7 +106,7 @@ namespace Archivarius.Algorithms.LZW
             }
 
             // преобразуем строку в байты, записываем массива байтов в файл
-            var output = Encoding.Default.GetBytes(decompressed.ToString());
+            var output = Encoding.UTF8.GetBytes(decompressed.ToString());
             
             return output;
         }

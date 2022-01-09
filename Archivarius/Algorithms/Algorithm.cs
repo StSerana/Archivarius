@@ -7,8 +7,9 @@ namespace Archivarius.Algorithms
     public abstract class Algorithm
     {
         protected const string DELIMITER = "###";
-        protected static readonly byte[] BYTES_DELIMITER = Encoding.Default.GetBytes(DELIMITER);
-        public virtual string Prefix => "";
+        protected static readonly byte[] BYTES_DELIMITER = Encoding.UTF8.GetBytes(DELIMITER);
+        public virtual AlgorithmType? Type => null;
+        public virtual string Extension => "";
         public abstract byte[] Compress(string text, string filename);
         public abstract Dictionary<string, byte[]> Decompress(byte[] bytes);
         public abstract byte[] DecompressOneFile(byte[] bytes);
@@ -19,6 +20,10 @@ namespace Archivarius.Algorithms
                                             .Concat(encodedAdditionalText)
                                             .ToArray();
             return result;
+        }
+        public bool IsResolveFileType(string extension)
+        {
+            return Extension.Equals(extension);
         }
     }
 }
