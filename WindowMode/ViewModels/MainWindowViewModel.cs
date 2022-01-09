@@ -87,12 +87,14 @@ namespace WindowMode.ViewModels
             } 
         }
 
+        private Settings settings = FileSystem.GetSettings();
+
         public MainWindowViewModel()
-        {            
+        {
             CurrentDirectoryContent = new ObservableCollection<ArchivariusEntity>();
-            CurrentDirectoryPath = Directory.GetCurrentDirectory();
+            CurrentDirectoryPath = settings.DirectoryPath; 
             
-            UpdateCurrentDirectoryContent();
+            UpdateCurrentDirectoryContent();            
         }
 
         public void OnExtractPress(object? sender, RoutedEventArgs args)
@@ -154,6 +156,9 @@ namespace WindowMode.ViewModels
             if (FileSystem.CheckIfDirectoryExists(newPath))
             {
                 CurrentDirectoryPath = newPath;
+                settings.DirectoryPath = newPath;
+                FileSystem.SaveSettings(settings);
+                
                 UpdateCurrentDirectoryContent();
                 this.RaisePropertyChanged("CurrentDirectoryPath");
                 this.RaisePropertyChanged("IsDirectoryEmpty");
@@ -168,7 +173,5 @@ namespace WindowMode.ViewModels
         {
             ChangeCurrentDirectory(Path.GetFullPath(Path.Combine(CurrentDirectoryPath, @"../")));
         }
-
-        public string Greeting => "Welcome to Avalonia!";
     }
 }
