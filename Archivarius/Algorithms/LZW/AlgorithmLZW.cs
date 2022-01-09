@@ -39,7 +39,7 @@ namespace Archivarius.Algorithms.LZW
             if (!string.IsNullOrEmpty(w))
                 compressed.Add(dictionary[w]);
 
-            return Encoding.UTF8.GetBytes("arch_" + filename + DELIMITER)
+            return Encoding.UTF8.GetBytes(filename + DELIMITER)
                 .Concat(compressed.SelectMany(BitConverter.GetBytes).ToArray()).ToArray();
         }
 
@@ -68,7 +68,7 @@ namespace Archivarius.Algorithms.LZW
                 }
             }
 
-            foreach (var (name, file) in compressedFiles) decompressedFiles.Add("new" + name, DecompressOneFile(file));
+            foreach (var (name, file) in compressedFiles) decompressedFiles.Add("d_" + name, DecompressOneFile(file));
 
             return decompressedFiles;
         }
