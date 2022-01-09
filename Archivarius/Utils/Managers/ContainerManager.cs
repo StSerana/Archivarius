@@ -5,14 +5,14 @@ using Ninject;
 
 namespace Archivarius.Utils.Managers
 {
-    public class ContainerManager
+    public static class ContainerManager
     {
         public static StandardKernel CreateStandardContainer()
         {
             var container = new StandardKernel();
             container.Bind<IFileManager>().To<FileManager>();
-            container.Bind<Algorithm>().To<AlgorithmHuffman>();
-            container.Bind<Algorithm>().To<AlgorithmLZW>();
+            container.Bind<AbstractAlgorithm>().To<AbstractAlgorithmHuffman>();
+            container.Bind<AbstractAlgorithm>().To<AbstractAlgorithmLzw>();
             
             return container;
         }

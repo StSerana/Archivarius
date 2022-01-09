@@ -1,6 +1,9 @@
+using Archivarius;
+using Archivarius.Utils.Managers;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Ninject;
 using WindowMode.ViewModels;
 using WindowMode.Views;
 
@@ -17,9 +20,10 @@ namespace WindowMode
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                var container = ContainerManager.CreateStandardContainer();
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = new MainWindowViewModel(container.Get<Archivator>()),
                 };
             }
 

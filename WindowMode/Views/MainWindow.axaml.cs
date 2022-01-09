@@ -11,10 +11,13 @@ namespace WindowMode.Views
 {
     public class MainWindow : Window
     {
-        private MainWindowViewModel viewModel = new();
+        private MainWindowViewModel viewModel;
 
         public MainWindow()
         {
+            var container = ContainerManager.CreateStandardContainer();
+            viewModel = new MainWindowViewModel(container.Get<Archivator>());
+            
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
