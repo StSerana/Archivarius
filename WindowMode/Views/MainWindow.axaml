@@ -25,7 +25,7 @@
 					<ColumnDefinition Width="0.15*"/>
 				</Grid.ColumnDefinitions>
 
-				<TextBox Grid.Column="0" Watermark="File or directory path" Text="{Binding CurrentDirectoryPath, Mode=TwoWay}"/>
+				<TextBox Name="CurrentDirectoryPathTextbox" Grid.Column="0" Watermark="File or directory path" Text="{Binding CurrentDirectoryPath, Mode=TwoWay}"/>
 				
 				<Border Grid.Column="1" Classes="DirectoryUpButtonContainer">
 					<!--add icon-->

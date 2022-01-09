@@ -165,13 +165,26 @@ namespace WindowMode.ViewModels
             }
             else
             {
-                //add handle (show err msg?)
+                //need to add alert, for now just replace not existing path with the previous one
+                CurrentDirectoryPath = settings.DirectoryPath;
+
+                UpdateCurrentDirectoryContent();
+                this.RaisePropertyChanged("CurrentDirectoryPath");
+                this.RaisePropertyChanged("IsDirectoryEmpty");
             }
         }
 
         public void OnGoUpButtonTap(object? sender, RoutedEventArgs args)
         {
             ChangeCurrentDirectory(Path.GetFullPath(Path.Combine(CurrentDirectoryPath, @"../")));
+        }
+
+        public void OnCurrentDirectoryPathTextboxKeyDown(object? sender, Avalonia.Input.KeyEventArgs args)
+        {
+            var key = args.Key;
+
+            if (key == Avalonia.Input.Key.Enter)
+                ChangeCurrentDirectory(CurrentDirectoryPath);
         }
     }
 }

@@ -47,6 +47,11 @@ namespace WindowMode.Views
                 (DataContext as MainWindowViewModel).OnGoUpButtonTap(s, a);
             };
 
+            this.FindControl<TextBox>("CurrentDirectoryPathTextbox").KeyDown += (s, a) =>
+            {
+                (DataContext as MainWindowViewModel).OnCurrentDirectoryPathTextboxKeyDown(s, a);
+            };
+
         }
 
         private void InitializeComponent()
