@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Archivarius.Algorithms;
 using Archivarius.Algorithms.Huffman;
@@ -36,11 +37,18 @@ namespace Archivarius
         
         public void Compress(string filePath, string filename)
         {
-            var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile($"{filePath}/{filename}"));
+            var path = Path.Combine(filePath, filename);
+            var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile(path));
             Console.WriteLine(textFromFile);
             var compressed = SelectedAlgorithm.Compress(textFromFile, filename);
+
+            var fileExtension = new FileInfo(path).Extension;
+            var formattedFileName = filename.Replace(fileExtension, "");
+
             //  записываем массив байтов в файл, сохраняем сжатый файл
-            _fileManager.WriteFile($"{filePath}/arch_{filename}", compressed);
+            var outputFilePath = Path.Combine(filePath, $"{formattedFileName}.archivarius");
+
+            _fileManager.WriteFile(outputFilePath, compressed);
         }
 
         public void AppendFile(string filePath, string filename, string currentArchiveName)
@@ -48,16 +56,19 @@ namespace Archivarius
             var textFromFile = Encoding.Default.GetString(_fileManager.ReadFile($"{filePath}/{filename}"));
             var archive = _fileManager.ReadFile($"{filePath}/{currentArchiveName}");
             var updatedArchive = SelectedAlgorithm.AppendFile(archive, textFromFile, filename);
-            _fileManager.DeleteFile($"{filePath}/{currentArchiveName}");
-            _fileManager.WriteFile($"{filePath}/{currentArchiveName}", updatedArchive);
+
+            var outputFilePath = Path.Combine(filePath, currentArchiveName);
+            _fileManager.DeleteFile(outputFilePath);            
+            _fileManager.WriteFile(outputFilePath, updatedArchive);
         }
 
         public void Decompress(string filepath, string inputFile)
         {
-            var textFromFile = _fileManager.ReadFile($"{filepath}/{inputFile}");
-            var compressed = SelectedAlgorithm.Decompress(textFromFile);
+            var path = Path.Combine(filepath, inputFile);
+            var textFromFile = _fileManager.ReadFile(path);
+            var decompressed = SelectedAlgorithm.Decompress(textFromFile);
             //  записываем массив байтов в файл, сохраняем сжатый файл
-            _fileManager.WriteFile(filepath, compressed);
+            _fileManager.WriteFile(filepath, decompressed);
         }
     }
 }
