@@ -11,8 +11,8 @@ namespace Archivarius.Utils.Managers
         {
             var container = new StandardKernel();
             container.Bind<IFileManager>().To<FileManager>();
-            container.Bind<AbstractAlgorithm>().To<AbstractAlgorithmHuffman>();
-            container.Bind<AbstractAlgorithm>().To<AbstractAlgorithmLzw>();
+            container.Bind<AbstractAlgorithm>().To<AlgorithmHuffman>();
+            container.Bind<AbstractAlgorithm>().To<AlgorithmLzw>();
             
             return container;
         }

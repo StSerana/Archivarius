@@ -7,7 +7,7 @@ using Archivarius.Utils.Converters;
 
 namespace Archivarius.Algorithms.Huffman
 {
-    public class AbstractAlgorithmHuffman : AbstractAlgorithm
+    public class AlgorithmHuffman : AbstractAlgorithm
     {
         public override string Extension => ".huf";
         public override AlgorithmType Type  => AlgorithmType.Huffman;

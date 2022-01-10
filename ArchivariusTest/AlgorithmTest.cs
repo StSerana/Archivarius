@@ -12,21 +12,21 @@ namespace ArchivariusTest
         [Test]
         public void AlgorithmHuffman_Compress_NotEmpty()
         {
-            AbstractAlgorithm abstractAlgorithm = new AbstractAlgorithmHuffman();
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmHuffman();
             TestAlgorithmCompress(abstractAlgorithm, "SOVA");
         }
         
         [Test]
         public void AlgorithmLZW_Compress_NotEmpty()
         {
-            AbstractAlgorithm abstractAlgorithm = new AbstractAlgorithmLzw();
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmLzw();
             TestAlgorithmCompress(abstractAlgorithm, "SOVA");
         }
 
         [Test]
         public void AlgorithmHuffman_HaveDelimiter()
         {
-            AbstractAlgorithm abstractAlgorithm = new AbstractAlgorithmHuffman();
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmHuffman();
             var compressed = System.Text.Encoding.UTF8.GetString(abstractAlgorithm.Compress("Sova", "sova.txt"));
             HaveDelimiter(compressed);
         }
@@ -34,7 +34,7 @@ namespace ArchivariusTest
         [Test]
         public void AlgorithmHuffman_Decompress_NotEmpty()
         {
-            AbstractAlgorithm abstractAlgorithm = new AbstractAlgorithmHuffman();
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmHuffman();
             var compressed = abstractAlgorithm.Compress("Sova", "sova.txt");
             TestAlgorithmDecompress(abstractAlgorithm, compressed);
         }
@@ -42,7 +42,7 @@ namespace ArchivariusTest
         [Test]
         public void AlgorithmLZW_Decompress_NotEmpty()
         {
-            AbstractAlgorithm abstractAlgorithm = new AbstractAlgorithmLzw();
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmLzw();
             var compressed = abstractAlgorithm.Compress("Sova", "sova.txt");
             TestAlgorithmDecompress(abstractAlgorithm, compressed);
         }
@@ -51,7 +51,7 @@ namespace ArchivariusTest
         public void AlgorithmHuffman_Compress_Decompress_Equals()
         {
             const string text = "Sova";
-            AbstractAlgorithm abstractAlgorithm = new AbstractAlgorithmHuffman();
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmHuffman();
             TestAlgorithmDecompressedEqualsInput(abstractAlgorithm, text);
         }
         
@@ -59,7 +59,7 @@ namespace ArchivariusTest
         public void AlgorithmLZW_Compress_Decompress_Equals()
         {
             const string text = "Sova";
-            AbstractAlgorithm abstractAlgorithm = new AbstractAlgorithmLzw();
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmLzw();
             TestAlgorithmDecompressedEqualsInput(abstractAlgorithm, text);
         }
 

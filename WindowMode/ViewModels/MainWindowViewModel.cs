@@ -32,7 +32,7 @@ namespace WindowMode.ViewModels
             AvailableAlgorithmTypes = new ObservableCollection<AlgorithmType>(archivator.AlgorithmManager.GetResolvedAlgorithmTypes());
             CurrentDirectoryContent = new ObservableCollection<ArchivariusEntity>();
             CurrentDirectoryPath = settings.DirectoryPath;
-            SelectedAlgorithmType = AlgorithmType.Huffman;
+            SelectedAlgorithmType = AlgorithmType.Default;
             
             UpdateCurrentDirectoryContent();
         }

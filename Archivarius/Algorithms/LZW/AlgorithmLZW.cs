@@ -6,7 +6,7 @@ using Archivarius.Utils.Converters;
 
 namespace Archivarius.Algorithms.LZW
 {
-    public class AbstractAlgorithmLzw : AbstractAlgorithm
+    public class AlgorithmLzw : AbstractAlgorithm
     {
         public override string Extension => ".lzw";
         public override AlgorithmType Type  => AlgorithmType.Lzw;
