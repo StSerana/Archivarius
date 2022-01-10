@@ -1,15 +1,14 @@
-using Archivarius.Algorithms;
 using Archivarius.Utils.Managers;
 using CommandLine;
 
-namespace Archivarius
+namespace Archivarius.UserOptions
 {
     public abstract class Option
     {
-        protected static readonly ConsoleArchiveManager ConsoleArchiveManager = new ConsoleArchiveManager();
+        protected static readonly ConsoleArchiveManager ConsoleArchiveManager = new();
         
         [Option('f', "file", Required = true, HelpText = "Input file")]
-        public string InputFile { get; set; }
+        public string InputFile { get; init; }
 
         public abstract void Execute();
     }

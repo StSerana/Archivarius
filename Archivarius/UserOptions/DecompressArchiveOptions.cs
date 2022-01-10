@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace Archivarius
+namespace Archivarius.UserOptions
 {
     
     [Verb("decompress", HelpText = "Decompress archive" )]

@@ -4,26 +4,22 @@ using System.Text;
 
 namespace Archivarius.Algorithms
 {
-    public abstract class Algorithm
+    public abstract class AbstractAlgorithm : IAlgorithm
     {
-        protected const string DELIMITER = "###";
-        protected static readonly byte[] BYTES_DELIMITER = Encoding.UTF8.GetBytes(DELIMITER);
-        public virtual AlgorithmType? Type => null;
+        protected const string Delimiter = "###";
+        protected static readonly byte[] BytesDelimiter = Encoding.UTF8.GetBytes(Delimiter);
+        public virtual AlgorithmType Type => AlgorithmType.Default;
         public virtual string Extension => "";
         public abstract byte[] Compress(string text, string filename);
         public abstract Dictionary<string, byte[]> Decompress(byte[] bytes);
-        public abstract byte[] DecompressOneFile(byte[] bytes);
+
         public byte[] AppendFile(IEnumerable<byte> currentArchive, string additionalText, string additionalName)
         {
             var encodedAdditionalText = Compress(additionalText, additionalName);
-            var result = currentArchive.Concat(BYTES_DELIMITER)
+            var result = currentArchive.Concat(BytesDelimiter)
                                             .Concat(encodedAdditionalText)
                                             .ToArray();
             return result;
-        }
-        public bool IsResolveFileType(string extension)
-        {
-            return Extension.Equals(extension);
         }
     }
 }

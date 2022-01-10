@@ -7,10 +7,10 @@ using Archivarius.Utils.Converters;
 
 namespace Archivarius.Algorithms.Huffman
 {
-    public class AlgorithmHuffman : Algorithm
+    public class AlgorithmHuffman : AbstractAlgorithm
     {
         public override string Extension => ".huf";
-        public override AlgorithmType? Type  => AlgorithmType.Huffman;
+        public override AlgorithmType Type  => AlgorithmType.Huffman;
 
         public override byte[] Compress(string text, string filename)
         {
@@ -22,55 +22,53 @@ namespace Archivarius.Algorithms.Huffman
             var encoded = tree.Encode(text);
             
             // преобразуем дерево в строку
-            var encodedTree = Encoding.UTF8.GetBytes(HuffmanTree.TreeToString(tree.Root, new StringBuilder()) + DELIMITER);
+            var encodedTree = Encoding.UTF8.GetBytes(HuffmanTree.TreeToString(tree.Root, new StringBuilder()) + Delimiter);
 
             // преобразуем строку в байты, добавляем дерево
             var output = encodedTree.Concat(ByteArrayConverter.BitArrayToByteArray(encoded)).ToArray();
-            return Encoding.UTF8.GetBytes(filename + DELIMITER).Concat(output).ToArray();
+            
+            return Encoding.UTF8.GetBytes(filename + Delimiter).Concat(output).ToArray();
         }
         
         public override Dictionary<string, byte[]> Decompress(byte[] bytes)
         {
-            var compressedFiles = new Dictionary<string, byte[]>();
             var decompressedFiles = new Dictionary<string, byte[]>();
             var index = 0;
             var source = new List<byte>(bytes);
             
             while (index != -1)
             {
-                index = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER, source);
+                // находим имя сжатого файла
+                index = ByteArrayConverter.ByteArrayPatternSearch(BytesDelimiter, source);
                 var fileName = string.Join("", Encoding.UTF8.GetString(source.Take(index).ToArray()));
-                source = source.Skip(index + BYTES_DELIMITER.Length).ToList();
-                var treeIndex = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER, source);
-                index = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER,
-                    source.Skip(treeIndex + BYTES_DELIMITER.Length).ToArray());
+                // "обрезаем" файл и получаем местоположение дерева Хаффмана
+                source = source.Skip(index + BytesDelimiter.Length).ToList();
+                var treeIndex = ByteArrayConverter.ByteArrayPatternSearch(BytesDelimiter, source);
+                // проверяем есть ли еще сжатые файлы
+                index = ByteArrayConverter.ByteArrayPatternSearch(BytesDelimiter,
+                    source.Skip(treeIndex + BytesDelimiter.Length).ToArray());
                 if (index == -1)
-                    compressedFiles.Add(fileName, source.ToArray());
+                    decompressedFiles.Add("d_" + fileName, DecompressOneFile(source.ToArray()));
                 else
                 {
+                    // декодируем файл и "обрезаем" архив
                     var encodedFile = source.Take(treeIndex + index).ToArray();
-                    source = source.Skip(treeIndex + index + 2 * BYTES_DELIMITER.Length).ToList();
-                    compressedFiles.Add(fileName, encodedFile);
+                    source = source.Skip(treeIndex + index + 2 * BytesDelimiter.Length).ToList();
+                    decompressedFiles.Add("d_" + fileName, DecompressOneFile(encodedFile));
                     index = 0;
                 }
             }
 
-            foreach (var (name, file) in compressedFiles) decompressedFiles.Add("d_" + name, DecompressOneFile(file));
-
             return decompressedFiles;
         }
-        
-        public override byte[] DecompressOneFile(byte[] bytes)
+
+        private byte[] DecompressOneFile(byte[] bytes)
         {
-            var (stringTree, encoded) = HuffmanTree.FindTree(bytes, BYTES_DELIMITER);
+            var (stringTree, encoded) = HuffmanTree.FindTree(bytes, BytesDelimiter);
             var bits = new BitArray(encoded);
             var tree = HuffmanTree.TreeFromString(stringTree);
             var decoded = tree.Decode(bits);
-
-            // преобразуем строку в байты, записываем массива байтов в файл
-            var output = Encoding.UTF8.GetBytes(decoded);
-            
-            return output;
+            return Encoding.UTF8.GetBytes(decoded);
         }
     }
 }

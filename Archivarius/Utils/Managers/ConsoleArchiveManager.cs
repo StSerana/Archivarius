@@ -1,11 +1,12 @@
 using System.IO;
+using Archivarius.UserOptions;
 using Ninject;
 
 namespace Archivarius.Utils.Managers
 {
     public class ConsoleArchiveManager
     {
-        private Archivator archivator;
+        private readonly Archivator archivator;
         public ConsoleArchiveManager()
         {
             var container = ContainerManager.CreateStandardContainer();

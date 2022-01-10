@@ -2,21 +2,41 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using Archivarius;
 using Archivarius.Algorithms;
-using Archivarius.Utils.Managers;
 using WindowMode.Models;
 using ReactiveUI;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Ninject;
+using System.ComponentModel;
 
 namespace WindowMode.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        
+        private string currentDirectoryPath;
+        private readonly Archivator archivator;
+        public string CurrentDirectoryPath 
+        { 
+            get => currentDirectoryPath;
+            set => this.RaiseAndSetIfChanged(ref currentDirectoryPath, value);
+        }
+
+        private readonly Settings settings = FileSystem.GetSettings();
+
+        public MainWindowViewModel(Archivator archivator)
+        {
+            this.archivator = archivator;
+            AvailableAlgorithmTypes = new ObservableCollection<AlgorithmType>(archivator.AlgorithmManager.GetResolvedAlgorithmTypes());
+            CurrentDirectoryContent = new ObservableCollection<ArchivariusEntity>();
+            CurrentDirectoryPath = settings.DirectoryPath;
+            SelectedAlgorithmType = AlgorithmType.Default;
+            
+            UpdateCurrentDirectoryContent();
+        }
+        
         private bool extractButtonIsEnabled;
         public bool ExtractButtonIsEnabled 
         {
@@ -47,7 +67,7 @@ namespace WindowMode.ViewModels
         public AlgorithmType SelectedAlgorithmType { get; set; }
         public ObservableCollection<AlgorithmType> AvailableAlgorithmTypes { get; }
         public ObservableCollection<ArchivariusEntity> CurrentDirectoryContent { get; }        
-        public bool IsDirectoryEmpty { get => CurrentDirectoryContent?.Count == 0; }
+        public bool IsDirectoryEmpty => CurrentDirectoryContent?.Count == 0;
         private int dataGridSelectedRowIndex;
         public int DataGridSelectedRowIndex
         {
@@ -67,10 +87,10 @@ namespace WindowMode.ViewModels
                     {
                         var selectedItem = CurrentDirectoryContent[value];
 
-                        ExtractButtonIsEnabled = selectedItem.IsArchive;
-                        AddToButtonIsEnabled = selectedItem.IsArchive;
+                        ExtractButtonIsEnabled = IsEntityArchive(selectedItem);
+                        AddToButtonIsEnabled = IsEntityArchive(selectedItem);
                         ViewButtonIsEnabled = selectedItem.IsDirectory;
-                        ArchiveButtonIsEnabled = selectedItem.Extension != null && !selectedItem.IsArchive;
+                        ArchiveButtonIsEnabled = selectedItem.Extension != null && !IsEntityArchive(selectedItem);
                     }
 
                     this.RaiseAndSetIfChanged(ref dataGridSelectedRowIndex, value);
@@ -78,33 +98,9 @@ namespace WindowMode.ViewModels
             }
         }
 
-        private string currentDirectoryPath;
-        private Archivator archivator;
-        public string CurrentDirectoryPath 
-        { 
-            get => currentDirectoryPath;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref currentDirectoryPath, value);
-            } 
-        }
+        private bool IsEntityArchive(ArchivariusEntity entity) => archivator.AlgorithmManager.GetResolvedArchiveExtensions().Contains(entity.Extension);
 
-        private Settings settings = FileSystem.GetSettings();
-
-        public MainWindowViewModel()
-        {            
-            AvailableAlgorithmTypes = new ObservableCollection<AlgorithmType>() { AlgorithmType.Huffman, AlgorithmType.Lzw };
-            CurrentDirectoryContent = new ObservableCollection<ArchivariusEntity>();
-            CurrentDirectoryPath = settings.DirectoryPath;
-            SelectedAlgorithmType = AlgorithmType.Huffman;
-
-
-            UpdateCurrentDirectoryContent();
-            
-            var container= ContainerManager.CreateStandardContainer();
-            archivator = container.Get<Archivator>();
-            
-        }
+        
 
         public void OnExtractPress(object? sender, RoutedEventArgs args)
         {

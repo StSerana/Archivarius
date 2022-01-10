@@ -3,7 +3,7 @@ using Archivarius.Algorithms.Huffman;
 using Archivarius.Algorithms.LZW;
 using NUnit.Framework;
 
-namespace Archivarius.ArchivariusTest
+namespace ArchivariusTest
 {
     
     [TestFixture]
@@ -12,75 +12,75 @@ namespace Archivarius.ArchivariusTest
         [Test]
         public void AlgorithmHuffman_Compress_NotEmpty()
         {
-            Algorithm algorithm = new AlgorithmHuffman();
-            TestAlgorithmCompress(algorithm, "SOVA");
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmHuffman();
+            TestAlgorithmCompress(abstractAlgorithm, "SOVA");
         }
         
         [Test]
         public void AlgorithmLZW_Compress_NotEmpty()
         {
-            Algorithm algorithm = new AlgorithmLZW();
-            TestAlgorithmCompress(algorithm, "SOVA");
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmLzw();
+            TestAlgorithmCompress(abstractAlgorithm, "SOVA");
         }
 
         [Test]
         public void AlgorithmHuffman_HaveDelimiter()
         {
-            Algorithm algorithm = new AlgorithmHuffman();
-            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress("Sova", "sova.txt"));
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmHuffman();
+            var compressed = System.Text.Encoding.UTF8.GetString(abstractAlgorithm.Compress("Sova", "sova.txt"));
             HaveDelimiter(compressed);
         }
         
         [Test]
         public void AlgorithmHuffman_Decompress_NotEmpty()
         {
-            Algorithm algorithm = new AlgorithmHuffman();
-            var compressed = algorithm.Compress("Sova", "sova.txt");
-            TestAlgorithmDecompress(algorithm, compressed);
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmHuffman();
+            var compressed = abstractAlgorithm.Compress("Sova", "sova.txt");
+            TestAlgorithmDecompress(abstractAlgorithm, compressed);
         }
         
         [Test]
         public void AlgorithmLZW_Decompress_NotEmpty()
         {
-            Algorithm algorithm = new AlgorithmLZW();
-            var compressed = algorithm.Compress("Sova", "sova.txt");
-            TestAlgorithmDecompress(algorithm, compressed);
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmLzw();
+            var compressed = abstractAlgorithm.Compress("Sova", "sova.txt");
+            TestAlgorithmDecompress(abstractAlgorithm, compressed);
         }
         
         [Test]
         public void AlgorithmHuffman_Compress_Decompress_Equals()
         {
             const string text = "Sova";
-            Algorithm algorithm = new AlgorithmHuffman();
-            TestAlgorithmDecompressedEqualsInput(algorithm, text);
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmHuffman();
+            TestAlgorithmDecompressedEqualsInput(abstractAlgorithm, text);
         }
         
         [Test]
         public void AlgorithmLZW_Compress_Decompress_Equals()
         {
             const string text = "Sova";
-            Algorithm algorithm = new AlgorithmLZW();
-            TestAlgorithmDecompressedEqualsInput(algorithm, text);
+            AbstractAlgorithm abstractAlgorithm = new AlgorithmLzw();
+            TestAlgorithmDecompressedEqualsInput(abstractAlgorithm, text);
         }
 
-        private static void TestAlgorithmDecompressedEqualsInput(Algorithm algorithm, string text)
+        private static void TestAlgorithmDecompressedEqualsInput(AbstractAlgorithm abstractAlgorithm, string text)
         {
-            var compressed = algorithm.Compress(text, "sova.txt");
-            var decompressedBytes = algorithm.Decompress(compressed);
+            var compressed = abstractAlgorithm.Compress(text, "sova.txt");
+            var decompressedBytes = abstractAlgorithm.Decompress(compressed);
             var decompressed = System.Text.Encoding.UTF8.GetString(decompressedBytes["d_sova.txt"]);
             Assert.AreEqual(decompressed, text);
         }
 
-        private static void TestAlgorithmDecompress(Algorithm algorithm, byte[] compressed)
+        private static void TestAlgorithmDecompress(AbstractAlgorithm abstractAlgorithm, byte[] compressed)
         {
-            var decompressed = algorithm.Decompress(compressed);
+            var decompressed = abstractAlgorithm.Decompress(compressed);
             Assert.IsNotNull(decompressed);
             Assert.IsNotEmpty(decompressed);
         }
 
-        private static void TestAlgorithmCompress(Algorithm algorithm, string text)
+        private static void TestAlgorithmCompress(AbstractAlgorithm abstractAlgorithm, string text)
         {
-            var compressed = System.Text.Encoding.UTF8.GetString(algorithm.Compress(text, "sova.text"));
+            var compressed = System.Text.Encoding.UTF8.GetString(abstractAlgorithm.Compress(text, "sova.text"));
             Assert.IsNotNull(compressed);
             Assert.IsNotEmpty(compressed);
         }

@@ -6,10 +6,10 @@ using Archivarius.Utils.Converters;
 
 namespace Archivarius.Algorithms.LZW
 {
-    public class AlgorithmLZW : Algorithm
+    public class AlgorithmLzw : AbstractAlgorithm
     {
         public override string Extension => ".lzw";
-        public override AlgorithmType? Type  => AlgorithmType.Lzw;
+        public override AlgorithmType Type  => AlgorithmType.Lzw;
         public override byte[] Compress(string text, string filename)
         {
             // строим словарь
@@ -39,41 +39,40 @@ namespace Archivarius.Algorithms.LZW
             if (!string.IsNullOrEmpty(w))
                 compressed.Add(dictionary[w]);
 
-            return Encoding.UTF8.GetBytes(filename + DELIMITER)
-                .Concat(compressed.SelectMany(BitConverter.GetBytes).ToArray()).ToArray();
+            return Encoding.UTF8.GetBytes(filename + Delimiter)
+                .Concat(compressed.SelectMany(BitConverter.GetBytes).ToArray())
+                .ToArray();
         }
 
         public override Dictionary<string, byte[]> Decompress(byte[] bytes)
         {
-            var compressedFiles = new Dictionary<string, byte[]>();
             var decompressedFiles = new Dictionary<string, byte[]>();
             var index = 0;
             var source = new List<byte>(bytes);
             
             while (index != -1)
             {
-                index = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER, source);
+                // находим имя сжатого файла
+                index = ByteArrayConverter.ByteArrayPatternSearch(BytesDelimiter, source);
                 var fileName = string.Join("", Encoding.UTF8.GetString(source.Take(index).ToArray()));
-                source = source.Skip(index + BYTES_DELIMITER.Length).ToList();
-                index = ByteArrayConverter.ByteArrayPatternSearch(BYTES_DELIMITER,
-                    source);
+                source = source.Skip(index + BytesDelimiter.Length).ToList();
+                // проверяем есть ли еще сжатые файлы
+                index = ByteArrayConverter.ByteArrayPatternSearch(BytesDelimiter, source);
                 if (index == -1)
-                    compressedFiles.Add(fileName, source.ToArray());
+                    decompressedFiles.Add("d_" + fileName, DecompressOneFile(source.ToArray()));
                 else
                 {
                     var encodedFile = source.Take(index).ToArray();
-                    source = source.Skip(index + BYTES_DELIMITER.Length).ToList();
-                    compressedFiles.Add(fileName, encodedFile);
+                    source = source.Skip(index + BytesDelimiter.Length).ToList();
+                    decompressedFiles.Add("d_" + fileName, DecompressOneFile(encodedFile));
                     index = 0;
                 }
             }
-
-            foreach (var (name, file) in compressedFiles) decompressedFiles.Add("d_" + name, DecompressOneFile(file));
-
+            
             return decompressedFiles;
         }
 
-        public override byte[] DecompressOneFile(byte[] bytes)
+        private byte[] DecompressOneFile(byte[] bytes)
         {
             var compressed= Enumerable.Range(0, bytes.Length / 4)
                 .Select(i => BitConverter.ToInt32(bytes, i * 4))
@@ -105,10 +104,7 @@ namespace Archivarius.Algorithms.LZW
                 w = entry;
             }
 
-            // преобразуем строку в байты, записываем массива байтов в файл
-            var output = Encoding.UTF8.GetBytes(decompressed.ToString());
-            
-            return output;
+            return Encoding.UTF8.GetBytes(decompressed.ToString());
         }
     }
 }

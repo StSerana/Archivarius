@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Archivarius.Utils.Converters
 {
-    public class ByteArrayConverter
+    public static class ByteArrayConverter
     {
         public static int ByteArrayPatternSearch(IReadOnlyList<byte> pattern, IReadOnlyList<byte> src)
         {

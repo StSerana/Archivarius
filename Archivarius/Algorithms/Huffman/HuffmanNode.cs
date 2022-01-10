@@ -15,22 +15,20 @@ namespace Archivarius.Algorithms.Huffman
         }
         public HuffmanNode(char symbol, int frequency)
         {
-            this.Frequency = frequency;
-            this.Symbol = symbol;
+            Frequency = frequency;
+            Symbol = symbol;
         }
         public static void Traverse(HuffmanNode root, string data, Dictionary<char, List<bool>> result)
         {
             if (root == null)
                 return;
 
-            // found a leaf node
             if (root.Left == null && root.Right == null)
             {
-                result.Add(root.Symbol, getBinary(data));
+                result.Add(root.Symbol, GetBinary(data));
                 return;
             }
-
-
+            
             Traverse(root.Left, data + "0", result);
             Traverse(root.Right,data + "1", result);
         }
@@ -40,21 +38,16 @@ namespace Archivarius.Algorithms.Huffman
             if (root == null)
                 return;
 
-            // found a leaf node
             if (root.Left == null && root.Right == null)
             {
                 result.Add(data, root.Symbol);
                 return;
             }
-
-
+            
             ReverseTraverse(root.Left, data + "0", result);
             ReverseTraverse(root.Right,data + "1", result);
         }
 
-        private static List<bool> getBinary(string src)
-        {
-            return src.Select(s => s.ToString() == "1").ToList();
-        }
+        private static List<bool> GetBinary(string src) => src.Select(s => s.ToString() == "1").ToList();
     }
 }
