@@ -9,9 +9,11 @@ using WindowMode.Models;
 using ReactiveUI;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using System.ComponentModel;
+
 namespace WindowMode.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         
         private string currentDirectoryPath;
