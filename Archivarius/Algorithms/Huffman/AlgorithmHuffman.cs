@@ -62,7 +62,7 @@ namespace Archivarius.Algorithms.Huffman
             return decompressedFiles;
         }
 
-        private byte[] DecompressOneFile(byte[] bytes)
+        public override byte[] DecompressOneFile(byte[] bytes)
         {
             var (stringTree, encoded) = HuffmanTree.FindTree(bytes, BytesDelimiter);
             var bits = new BitArray(encoded);

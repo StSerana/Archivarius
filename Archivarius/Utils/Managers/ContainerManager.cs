@@ -1,6 +1,7 @@
 using Archivarius.Algorithms;
 using Archivarius.Algorithms.Huffman;
 using Archivarius.Algorithms.LZW;
+using Archivarius.Algorithms.SystemCompression;
 using Ninject;
 
 namespace Archivarius.Utils.Managers
@@ -13,6 +14,7 @@ namespace Archivarius.Utils.Managers
             container.Bind<IFileManager>().To<FileManager>();
             container.Bind<AbstractAlgorithm>().To<AlgorithmHuffman>();
             container.Bind<AbstractAlgorithm>().To<AlgorithmLzw>();
+            container.Bind<AbstractAlgorithm>().To<SystemCompressionAlgorithm>();
             
             return container;
         }
