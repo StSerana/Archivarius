@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
-using Archivarius.Utils.Converters;
 using NLog;
 
 namespace Archivarius.Algorithms.SystemCompression
@@ -16,7 +13,7 @@ namespace Archivarius.Algorithms.SystemCompression
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
         public override string Extension => ".zip";
-        
+
         public override AlgorithmType Type  => AlgorithmType.Gzip;
         
         public override byte[] Compress(string text, string filename) => _Compress(text, filename);

@@ -123,7 +123,7 @@ namespace ArchivariusTest
         private static void HaveDelimiter(string compressed)
         {
             var haveDelimiter = compressed.Contains("###");
-            Assert.AreEqual(haveDelimiter, true);
+            Assert.AreEqual( true, haveDelimiter);
         }
     }
 }
