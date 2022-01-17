@@ -8,6 +8,6 @@ namespace Archivarius.Algorithms
         Default,
         Huffman, 
         Lzw,
-        Gzip,
+        Gzip
     }
 }
